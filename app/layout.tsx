@@ -12,13 +12,30 @@ const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 const _fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" })
 
+const title = "Francisco Rissone | Network Engineer | CCNA Certified"
+const description =
+  "Network Engineer & NOC Analyst portfolio. CCNA-certified with expertise in Cisco networking, VLAN configuration, routing protocols, and infrastructure management."
+
 export const metadata: Metadata = {
-  title: "Francisco Rissone | Network Engineer | CCNA Certified",
-  description:
-    "Network Engineer & NOC Analyst portfolio. CCNA-certified with expertise in Cisco networking, VLAN configuration, routing protocols, and infrastructure management.",
+  metadataBase: new URL("https://portfolio-rissonefran.vercel.app"),
+  title,
+  description,
   keywords:
     "Network Engineer, NOC Analyst, CCNA, Cisco, VLAN, Routing, Switching, OSPF, Network Security, Infrastructure",
   generator: "v0.app",
+  openGraph: {
+    title,
+    description,
+    url: "/",
+    siteName: "Francisco Rissone Portfolio",
+    type: "website",
+    locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title,
+    description,
+  },
   icons: {
     icon: [
       {

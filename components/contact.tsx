@@ -5,6 +5,10 @@ import type React from "react"
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
 import { IconBadge } from "@/components/icon-badge"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
 import { Mail, Linkedin, MapPin } from "lucide-react"
 import { useState } from "react"
 
@@ -96,6 +100,44 @@ export function Contact() {
             <span>{t.hero.location}</span>
           </div>
         </div>
+
+        <form onSubmit={handleSubmit} className="space-y-4 text-left">
+          <div className="space-y-2">
+            <Label htmlFor="contact-name">{t.contact.namePlaceholder}</Label>
+            <Input
+              id="contact-name"
+              required
+              value={formData.name}
+              onChange={(e) => setFormData((prev) => ({ ...prev, name: e.target.value }))}
+              placeholder={t.contact.namePlaceholder}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="contact-email">{t.contact.emailPlaceholder}</Label>
+            <Input
+              id="contact-email"
+              type="email"
+              required
+              value={formData.email}
+              onChange={(e) => setFormData((prev) => ({ ...prev, email: e.target.value }))}
+              placeholder={t.contact.emailPlaceholder}
+            />
+          </div>
+          <div className="space-y-2">
+            <Label htmlFor="contact-message">{t.contact.messagePlaceholder}</Label>
+            <Textarea
+              id="contact-message"
+              required
+              rows={5}
+              value={formData.message}
+              onChange={(e) => setFormData((prev) => ({ ...prev, message: e.target.value }))}
+              placeholder={t.contact.messagePlaceholder}
+            />
+          </div>
+          <Button type="submit" size="lg" className="w-full gap-2" disabled={isSubmitting}>
+            {isSubmitting ? t.contact.sending : t.contact.send}
+          </Button>
+        </form>
       </div>
     </SectionWrapper>
   )
