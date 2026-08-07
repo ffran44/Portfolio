@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
+import { IconBadge } from "@/components/icon-badge"
 import { Award, ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 
@@ -15,12 +16,9 @@ export function Certifications() {
           {t.certifications.items.map((cert, index) => (
             <article
               key={index}
-              className="card-forge flex items-start gap-4 p-6 rounded-lg bg-card border border-border transition-all"
+              className="card-forge group flex items-start gap-4 p-6 rounded-lg bg-card border border-border transition-all"
             >
-              <div className="p-2 rounded-md bg-accent/10">
-                <Award className="h-8 w-8 text-accent" />
-              </div>
-              {/* </CHANGE> */}
+              <IconBadge icon={Award} size="lg" />
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-foreground">{cert.name}</h3>
                 {cert.issuer && <p className="text-muted-foreground mt-1">{cert.issuer}</p>}

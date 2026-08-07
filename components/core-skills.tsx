@@ -2,6 +2,7 @@
 
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
+import { IconBadge } from "@/components/icon-badge"
 import { Waves } from "lucide-react"
 
 export function CoreSkills() {
@@ -16,9 +17,7 @@ export function CoreSkills() {
             className="card-forge group p-6 rounded-lg bg-card border border-border transition-all duration-300"
           >
             <div className="flex items-start gap-4">
-              <div className="p-2 rounded-md bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                <Waves className="h-6 w-6 text-accent" />
-              </div>
+              <IconBadge icon={Waves} />
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground mb-1">{skill}</h3>
               </div>

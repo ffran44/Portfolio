@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
+import { IconBadge } from "@/components/icon-badge"
 import { Mail, Linkedin, MapPin } from "lucide-react"
 import { useState } from "react"
 
@@ -71,9 +72,9 @@ export function Contact() {
         <div className="space-y-4 flex flex-col items-center">
           <button
             onClick={handleEmailClick}
-            className="flex items-center gap-3 text-foreground hover:text-accent transition-colors cursor-pointer relative group"
+            className="group flex items-center gap-3 text-foreground hover:text-accent transition-colors cursor-pointer relative"
           >
-            <Mail className="h-5 w-5" />
+            <IconBadge icon={Mail} size="sm" />
             <span className="font-medium">rissonefran@gmail.com</span>
             {copied && (
               <span className="absolute -top-8 left-1/2 -translate-x-1/2 bg-accent text-accent-foreground text-sm px-3 py-1 rounded-md whitespace-nowrap">
@@ -85,13 +86,13 @@ export function Contact() {
             href="https://www.linkedin.com/in/rissonefran/"
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-3 text-foreground hover:text-accent transition-colors"
+            className="group flex items-center gap-3 text-foreground hover:text-accent transition-colors"
           >
-            <Linkedin className="h-5 w-5" />
+            <IconBadge icon={Linkedin} size="sm" />
             <span className="font-medium">linkedin.com/in/rissonefran</span>
           </a>
-          <div className="flex items-center gap-3 text-muted-foreground">
-            <MapPin className="h-5 w-5" />
+          <div className="group flex items-center gap-3 text-muted-foreground">
+            <IconBadge icon={MapPin} size="sm" />
             <span>{t.hero.location}</span>
           </div>
         </div>
