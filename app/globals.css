@@ -4,85 +4,85 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Game of Thrones-inspired dark medieval color palette */
-  --background: oklch(0.12 0.01 285);
-  --foreground: oklch(0.92 0.01 90);
-  --card: oklch(0.16 0.01 285);
-  --card-foreground: oklch(0.92 0.01 90);
-  --popover: oklch(0.16 0.01 285);
-  --popover-foreground: oklch(0.92 0.01 90);
-  --primary: oklch(0.92 0.01 90);
-  --primary-foreground: oklch(0.12 0.01 285);
-  --secondary: oklch(0.22 0.01 285);
-  --secondary-foreground: oklch(0.92 0.01 90);
-  --muted: oklch(0.22 0.01 285);
-  --muted-foreground: oklch(0.65 0.01 90);
-  --accent: oklch(0.68 0.12 85);
-  --accent-foreground: oklch(0.12 0.01 285);
-  --destructive: oklch(0.48 0.18 25);
-  --destructive-foreground: oklch(0.92 0.01 90);
-  --border: oklch(0.28 0.01 285);
-  --input: oklch(0.28 0.01 285);
-  --ring: oklch(0.68 0.12 85);
-  --chart-1: oklch(0.68 0.12 85);
-  --chart-2: oklch(0.48 0.18 25);
-  --chart-3: oklch(0.55 0.08 285);
-  --chart-4: oklch(0.45 0.08 180);
-  --chart-5: oklch(0.62 0.1 45);
+  /* Tropical ocean color palette */
+  --background: oklch(0.15 0.035 240);
+  --foreground: oklch(0.95 0.015 210);
+  --card: oklch(0.19 0.04 235);
+  --card-foreground: oklch(0.95 0.015 210);
+  --popover: oklch(0.19 0.04 235);
+  --popover-foreground: oklch(0.95 0.015 210);
+  --primary: oklch(0.95 0.015 210);
+  --primary-foreground: oklch(0.15 0.035 240);
+  --secondary: oklch(0.25 0.04 235);
+  --secondary-foreground: oklch(0.95 0.015 210);
+  --muted: oklch(0.25 0.04 235);
+  --muted-foreground: oklch(0.68 0.025 220);
+  --accent: oklch(0.74 0.13 200);
+  --accent-foreground: oklch(0.15 0.035 240);
+  --destructive: oklch(0.58 0.19 25);
+  --destructive-foreground: oklch(0.95 0.015 210);
+  --border: oklch(0.31 0.04 235);
+  --input: oklch(0.31 0.04 235);
+  --ring: oklch(0.74 0.13 200);
+  --chart-1: oklch(0.74 0.13 200);
+  --chart-2: oklch(0.72 0.16 35);
+  --chart-3: oklch(0.55 0.1 250);
+  --chart-4: oklch(0.68 0.1 170);
+  --chart-5: oklch(0.78 0.12 85);
   --radius: 0.5rem;
-  --sidebar: oklch(0.16 0.01 285);
-  --sidebar-foreground: oklch(0.92 0.01 90);
-  --sidebar-primary: oklch(0.68 0.12 85);
-  --sidebar-primary-foreground: oklch(0.12 0.01 285);
-  --sidebar-accent: oklch(0.22 0.01 285);
-  --sidebar-accent-foreground: oklch(0.92 0.01 90);
-  --sidebar-border: oklch(0.28 0.01 285);
-  --sidebar-ring: oklch(0.68 0.12 85);
-  --fire: oklch(0.6 0.19 40);
-  --ice: oklch(0.72 0.1 230);
+  --sidebar: oklch(0.19 0.04 235);
+  --sidebar-foreground: oklch(0.95 0.015 210);
+  --sidebar-primary: oklch(0.74 0.13 200);
+  --sidebar-primary-foreground: oklch(0.15 0.035 240);
+  --sidebar-accent: oklch(0.25 0.04 235);
+  --sidebar-accent-foreground: oklch(0.95 0.015 210);
+  --sidebar-border: oklch(0.31 0.04 235);
+  --sidebar-ring: oklch(0.74 0.13 200);
+  --coral: oklch(0.72 0.16 35);
+  --lagoon: oklch(0.8 0.1 190);
 }
 
 .dark {
-  --background: oklch(0.12 0.01 285);
-  --foreground: oklch(0.92 0.01 90);
-  --card: oklch(0.16 0.01 285);
-  --card-foreground: oklch(0.92 0.01 90);
-  --popover: oklch(0.16 0.01 285);
-  --popover-foreground: oklch(0.92 0.01 90);
-  --primary: oklch(0.92 0.01 90);
-  --primary-foreground: oklch(0.12 0.01 285);
-  --secondary: oklch(0.22 0.01 285);
-  --secondary-foreground: oklch(0.92 0.01 90);
-  --muted: oklch(0.22 0.01 285);
-  --muted-foreground: oklch(0.65 0.01 90);
-  --accent: oklch(0.68 0.12 85);
-  --accent-foreground: oklch(0.12 0.01 285);
-  --destructive: oklch(0.48 0.18 25);
-  --destructive-foreground: oklch(0.92 0.01 90);
-  --border: oklch(0.28 0.01 285);
-  --input: oklch(0.28 0.01 285);
-  --ring: oklch(0.68 0.12 85);
-  --chart-1: oklch(0.68 0.12 85);
-  --chart-2: oklch(0.48 0.18 25);
-  --chart-3: oklch(0.55 0.08 285);
-  --chart-4: oklch(0.45 0.08 180);
-  --chart-5: oklch(0.62 0.1 45);
-  --sidebar: oklch(0.16 0.01 285);
-  --sidebar-foreground: oklch(0.92 0.01 90);
-  --sidebar-primary: oklch(0.68 0.12 85);
-  --sidebar-primary-foreground: oklch(0.12 0.01 285);
-  --sidebar-accent: oklch(0.22 0.01 285);
-  --sidebar-accent-foreground: oklch(0.92 0.01 90);
-  --sidebar-border: oklch(0.28 0.01 285);
-  --sidebar-ring: oklch(0.68 0.12 85);
-  --fire: oklch(0.6 0.19 40);
-  --ice: oklch(0.72 0.1 230);
+  --background: oklch(0.15 0.035 240);
+  --foreground: oklch(0.95 0.015 210);
+  --card: oklch(0.19 0.04 235);
+  --card-foreground: oklch(0.95 0.015 210);
+  --popover: oklch(0.19 0.04 235);
+  --popover-foreground: oklch(0.95 0.015 210);
+  --primary: oklch(0.95 0.015 210);
+  --primary-foreground: oklch(0.15 0.035 240);
+  --secondary: oklch(0.25 0.04 235);
+  --secondary-foreground: oklch(0.95 0.015 210);
+  --muted: oklch(0.25 0.04 235);
+  --muted-foreground: oklch(0.68 0.025 220);
+  --accent: oklch(0.74 0.13 200);
+  --accent-foreground: oklch(0.15 0.035 240);
+  --destructive: oklch(0.58 0.19 25);
+  --destructive-foreground: oklch(0.95 0.015 210);
+  --border: oklch(0.31 0.04 235);
+  --input: oklch(0.31 0.04 235);
+  --ring: oklch(0.74 0.13 200);
+  --chart-1: oklch(0.74 0.13 200);
+  --chart-2: oklch(0.72 0.16 35);
+  --chart-3: oklch(0.55 0.1 250);
+  --chart-4: oklch(0.68 0.1 170);
+  --chart-5: oklch(0.78 0.12 85);
+  --sidebar: oklch(0.19 0.04 235);
+  --sidebar-foreground: oklch(0.95 0.015 210);
+  --sidebar-primary: oklch(0.74 0.13 200);
+  --sidebar-primary-foreground: oklch(0.15 0.035 240);
+  --sidebar-accent: oklch(0.25 0.04 235);
+  --sidebar-accent-foreground: oklch(0.95 0.015 210);
+  --sidebar-border: oklch(0.31 0.04 235);
+  --sidebar-ring: oklch(0.74 0.13 200);
+  --coral: oklch(0.72 0.16 35);
+  --lagoon: oklch(0.8 0.1 190);
 }
 
 @theme {
   --font-sans: "Geist", "Geist Fallback";
   --font-mono: "Geist Mono", "Geist Mono Fallback";
-  --font-serif: "Cinzel", "Georgia", serif;
+  --font-serif: "Fraunces", "Georgia", serif;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -108,8 +108,8 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
-  --color-fire: var(--fire);
-  --color-ice: var(--ice);
+  --color-coral: var(--coral);
+  --color-lagoon: var(--lagoon);
 
   --radius-sm: 0.375rem;
   --radius-md: 0.4375rem;
@@ -165,36 +165,60 @@
     transform: translateY(0);
   }
 
-  /* "Forged in fire" card hover: gold border warms to ember glow */
+  /* Card hover: border catches a turquoise glow, plus a liquid ripple sweeps in */
   .card-forge {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
     transition:
       border-color 0.35s ease,
       box-shadow 0.35s ease,
       transform 0.35s ease;
   }
 
+  .card-forge::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: radial-gradient(circle at 50% 100%, oklch(0.74 0.13 200 / 0.22), transparent 65%);
+    opacity: 0;
+    transform: scale(0.6);
+    transition:
+      opacity 0.5s ease,
+      transform 0.6s ease;
+  }
+
   .card-forge:hover {
-    border-color: oklch(0.62 0.16 45 / 0.8);
+    border-color: oklch(0.74 0.13 200 / 0.75);
     box-shadow:
-      0 0 0 1px oklch(0.68 0.12 85 / 0.25),
-      0 8px 30px -10px oklch(0.55 0.18 35 / 0.5);
+      0 0 0 1px oklch(0.74 0.13 200 / 0.2),
+      0 8px 30px -10px oklch(0.55 0.14 210 / 0.55);
     transform: translateY(-2px);
   }
 
-  /* Subtle dark parchment/stone gradient for cards */
-  .card-parchment {
-    background-image: linear-gradient(160deg, oklch(0.18 0.012 285) 0%, oklch(0.15 0.01 285) 55%, oklch(0.14 0.012 300) 100%);
+  .card-forge:hover::before {
+    opacity: 1;
+    transform: scale(1);
   }
 
-  /* Floating ash/ember particles (hero only) */
+  /* Subtle deep-water gradient for cards */
+  .card-parchment {
+    background-image: linear-gradient(160deg, oklch(0.21 0.045 235) 0%, oklch(0.18 0.04 238) 55%, oklch(0.17 0.045 245) 100%);
+  }
+
+  /* Floating bubble particles (hero only) */
   .ash-particle {
     position: absolute;
     bottom: -12px;
     border-radius: 9999px;
-    background: oklch(0.72 0.14 60 / 0.55);
-    box-shadow: 0 0 6px oklch(0.65 0.16 45 / 0.5);
+    background: oklch(0.85 0.06 195 / 0.4);
+    border: 1px solid oklch(0.9 0.05 195 / 0.5);
+    box-shadow:
+      inset 0 0 3px oklch(1 0 0 / 0.5),
+      0 0 6px oklch(0.74 0.13 200 / 0.4);
     animation-name: ash-rise;
-    animation-timing-function: linear;
+    animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
   }
 
@@ -204,15 +228,106 @@
       opacity: 0;
     }
     10% {
-      opacity: 0.7;
+      opacity: 0.8;
+    }
+    50% {
+      transform: translate3d(calc(var(--drift, 0px) * 0.5), -52vh, 0);
     }
     85% {
-      opacity: 0.35;
+      opacity: 0.4;
     }
     100% {
       transform: translate3d(var(--drift, 0px), -105vh, 0);
       opacity: 0;
     }
+  }
+
+  /* Animated tide line for the hero footer */
+  .wave-drift {
+    animation: wave-drift 18s linear infinite;
+  }
+
+  @keyframes wave-drift {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Ambient drifting light blobs, like sunbeams through shallow water */
+  .ambient-blob {
+    position: absolute;
+    border-radius: 9999px;
+    filter: blur(90px);
+    opacity: 0.35;
+    will-change: transform;
+  }
+
+  .ambient-blob-1 {
+    top: -10%;
+    left: -8%;
+    width: 45vw;
+    height: 45vw;
+    background: oklch(0.74 0.13 200 / 0.5);
+    animation: blob-drift-1 32s ease-in-out infinite;
+  }
+
+  .ambient-blob-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 50vw;
+    height: 50vw;
+    background: oklch(0.8 0.1 190 / 0.4);
+    animation: blob-drift-2 38s ease-in-out infinite;
+  }
+
+  .ambient-blob-3 {
+    top: 42%;
+    left: 58%;
+    width: 30vw;
+    height: 30vw;
+    background: oklch(0.72 0.16 35 / 0.16);
+    animation: blob-drift-3 26s ease-in-out infinite;
+  }
+
+  @keyframes blob-drift-1 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(6vw, 8vh) scale(1.15);
+    }
+  }
+
+  @keyframes blob-drift-2 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-8vw, -6vh) scale(1.1);
+    }
+  }
+
+  @keyframes blob-drift-3 {
+    0%,
+    100% {
+      transform: translate(0, 0) scale(1);
+    }
+    50% {
+      transform: translate(-5vw, 5vh) scale(0.9);
+    }
+  }
+
+  /* Soft glow that follows the cursor, like light scattering underwater */
+  .ambient-spotlight {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 20%), oklch(0.85 0.08 195 / 0.12), transparent 70%);
+    transition: background 0.15s ease-out;
   }
 
   @media (prefers-reduced-motion: reduce) {
@@ -224,6 +339,14 @@
 
     .ash-particle {
       display: none;
+    }
+
+    .wave-drift {
+      animation: none;
+    }
+
+    .ambient-blob {
+      animation: none;
     }
 
     .animate-fade-in {

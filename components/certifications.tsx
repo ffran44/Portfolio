@@ -15,7 +15,7 @@ export function Certifications() {
           {t.certifications.items.map((cert, index) => (
             <article
               key={index}
-              className="flex items-start gap-4 p-6 rounded-lg bg-card border border-border hover:border-accent transition-all"
+              className="card-forge flex items-start gap-4 p-6 rounded-lg bg-card border border-border transition-all"
             >
               <div className="p-2 rounded-md bg-accent/10">
                 <Award className="h-8 w-8 text-accent" />

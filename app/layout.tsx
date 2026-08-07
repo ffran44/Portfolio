@@ -1,14 +1,15 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Cinzel } from "next/font/google"
+import { Geist, Geist_Mono, Fraunces } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
 import { LanguageToggle } from "@/components/language-toggle"
+import { InteractiveBackground } from "@/components/interactive-background"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const _cinzel = Cinzel({ subsets: ["latin"], variable: "--font-serif" })
+const _fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" })
 
 export const metadata: Metadata = {
   title: "Francisco Rissone | Network Engineer | CCNA Certified",
@@ -43,10 +44,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className={`font-sans antialiased ${_cinzel.variable}`}>
+      <body className={`font-sans antialiased ${_fraunces.variable}`}>
+        <InteractiveBackground />
         <LanguageProvider>
           <LanguageToggle />
-          {children}
+          <div className="relative z-10">{children}</div>
         </LanguageProvider>
         <Analytics />
       </body>

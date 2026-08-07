@@ -2,7 +2,7 @@
 
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
-import { Sword } from "lucide-react"
+import { Waves } from "lucide-react"
 
 export function CoreSkills() {
   const { t } = useLanguage()
@@ -13,11 +13,11 @@ export function CoreSkills() {
         {t.coreSkills.skills.map((skill, index) => (
           <article
             key={index}
-            className="group p-6 rounded-lg bg-card border border-border hover:border-accent transition-all duration-300"
+            className="card-forge group p-6 rounded-lg bg-card border border-border transition-all duration-300"
           >
             <div className="flex items-start gap-4">
               <div className="p-2 rounded-md bg-accent/10 group-hover:bg-accent/20 transition-colors">
-                <Sword className="h-6 w-6 text-accent" />
+                <Waves className="h-6 w-6 text-accent" />
               </div>
               <div className="flex-1">
                 <h3 className="font-semibold text-foreground mb-1">{skill}</h3>
