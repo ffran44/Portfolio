@@ -330,6 +330,14 @@
     transition: background 0.15s ease-out;
   }
 
+  /* Custom sun cursor: hide the native pointer only where the JS cursor is active */
+  @media (pointer: fine) {
+    .custom-cursor-active,
+    .custom-cursor-active * {
+      cursor: none;
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .section-reveal {
       opacity: 1;

@@ -5,6 +5,7 @@ import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
 import { LanguageToggle } from "@/components/language-toggle"
 import { InteractiveBackground } from "@/components/interactive-background"
+import { CustomCursor } from "@/components/custom-cursor"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -46,6 +47,7 @@ export default function RootLayout({
     <html lang="en" className="dark scroll-smooth">
       <body className={`font-sans antialiased ${_fraunces.variable}`}>
         <InteractiveBackground />
+        <CustomCursor />
         <LanguageProvider>
           <LanguageToggle />
           <div className="relative z-10">{children}</div>
