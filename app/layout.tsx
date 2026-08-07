@@ -6,6 +6,7 @@ import { LanguageProvider } from "@/lib/language-context"
 import { LanguageToggle } from "@/components/language-toggle"
 import { InteractiveBackground } from "@/components/interactive-background"
 import { CustomCursor } from "@/components/custom-cursor"
+import { AmbientAudioToggle } from "@/components/ambient-audio-toggle"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -67,6 +68,7 @@ export default function RootLayout({
         <CustomCursor />
         <LanguageProvider>
           <LanguageToggle />
+          <AmbientAudioToggle />
           <div className="relative z-10">{children}</div>
         </LanguageProvider>
         <Analytics />
