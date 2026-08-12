@@ -3,10 +3,11 @@
 import { Button } from "@/components/ui/button"
 import { WaveText } from "@/components/wave-text"
 import { useLanguage } from "@/lib/language-context"
-import { Mail, Linkedin } from "lucide-react"
+import { Mail, Linkedin, Download } from "lucide-react"
 
 export function Hero() {
-  const { t } = useLanguage()
+  const { t, language } = useLanguage()
+  const cvHref = language === "es" ? "/cv/Francisco-Rissone-CV-ES.pdf" : "/cv/Francisco-Rissone-CV-EN.pdf"
 
   return (
     <header className="relative min-h-screen flex items-center justify-center px-4 py-20 overflow-hidden">
@@ -56,6 +57,12 @@ export function Hero() {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 pt-4">
+            <Button size="lg" className="gap-2" asChild>
+              <a href={cvHref} download>
+                <Download className="h-4 w-4" />
+                {t.hero.downloadCV}
+              </a>
+            </Button>
             <Button size="lg" variant="outline" className="gap-2 bg-transparent" asChild>
               <a href="https://linkedin.com/in/rissonefran" target="_blank" rel="noopener noreferrer">
                 <Linkedin className="h-4 w-4" />
