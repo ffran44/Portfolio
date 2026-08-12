@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Fraunces } from "next/font/google"
+import { Montserrat, Geist_Mono, Original_Surfer } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
 import { LanguageToggle } from "@/components/language-toggle"
@@ -9,9 +9,9 @@ import { CustomCursor } from "@/components/custom-cursor"
 import { AmbientAudioToggle } from "@/components/ambient-audio-toggle"
 import "./globals.css"
 
-const _geist = Geist({ subsets: ["latin"] })
+const _montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const _fraunces = Fraunces({ subsets: ["latin"], variable: "--font-serif" })
+const _originalSurfer = Original_Surfer({ subsets: ["latin"], weight: "400", variable: "--font-serif" })
 
 const title = "Francisco Rissone | Network Engineer | CCNA Certified"
 const description =
@@ -63,7 +63,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark scroll-smooth">
-      <body className={`font-sans antialiased ${_fraunces.variable}`}>
+      <body className={`font-sans antialiased ${_montserrat.variable} ${_originalSurfer.variable}`}>
         <InteractiveBackground />
         <CustomCursor />
         <LanguageProvider>

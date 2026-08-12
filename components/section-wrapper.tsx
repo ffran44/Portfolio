@@ -1,6 +1,7 @@
 "use client"
 
 import { type ReactNode, useEffect, useRef, useState } from "react"
+import { WaveText } from "@/components/wave-text"
 
 interface SectionWrapperProps {
   id: string
@@ -45,7 +46,11 @@ export function SectionWrapper({ id, title, children }: SectionWrapperProps) {
 
       <div className="container max-w-7xl mx-auto">
         <header className="text-center mb-16">
-          <h2 className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance">{title}</h2>
+          <WaveText
+            as="h2"
+            text={title}
+            className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance"
+          />
           <div className="flex items-center justify-center gap-3" aria-hidden="true">
             <span className="h-px w-16 bg-gradient-to-r from-transparent to-accent/70" />
             <span className="w-2 h-2 rotate-45 border border-accent/80 bg-accent/20" />

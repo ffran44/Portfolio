@@ -1,6 +1,7 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
+import { WaveText } from "@/components/wave-text"
 import { useLanguage } from "@/lib/language-context"
 import { Mail, Linkedin } from "lucide-react"
 
@@ -39,9 +40,12 @@ export function Hero() {
       <div className="container max-w-6xl mx-auto relative z-10">
         <div className="text-center space-y-8 animate-fade-in">
           <div className="space-y-4">
-            <h1 className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-foreground tracking-tight">
-              Francisco Rissone
-            </h1>
+            <WaveText
+              as="h1"
+              text="Francisco Rissone"
+              className="font-serif text-5xl md:text-7xl lg:text-8xl font-bold text-foreground tracking-tight"
+              delayStep={0.045}
+            />
             <div className="h-px w-32 mx-auto bg-accent opacity-60" />
             <p className="text-2xl md:text-3xl text-muted-foreground font-light">{t.hero.title}</p>
             <p className="text-lg text-muted-foreground/80">{t.hero.location}</p>
