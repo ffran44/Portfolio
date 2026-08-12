@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og"
 
 export const runtime = "edge"
-export const alt = "Francisco Rissone — Network Engineer | CCNA Certified"
+export const alt = "Francisco Rissone — CCNA-Certified IT Technician"
 export const size = { width: 1200, height: 630 }
 export const contentType = "image/png"
 
@@ -21,7 +21,7 @@ export default async function Image() {
       >
         <div style={{ fontSize: 72, fontWeight: 700, color: "#eaf6f6" }}>Francisco Rissone</div>
         <div style={{ fontSize: 32, color: "#5fd4c8", letterSpacing: 2, marginTop: 16 }}>
-          Network Engineer · CCNA Certified
+          CCNA-Certified IT Technician
         </div>
         <div style={{ marginTop: 40, width: 120, height: 4, borderRadius: 4, background: "#5fd4c8", opacity: 0.7 }} />
       </div>

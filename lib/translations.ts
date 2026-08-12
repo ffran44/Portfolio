@@ -1,10 +1,10 @@
 export const translations = {
   en: {
     hero: {
-      title: "Network Engineer | NOC Analyst | CCNA",
+      title: "CCNA-Certified IT Technician | Network & Infrastructure",
       location: "Río Tercero, Córdoba, Argentina",
       summary:
-        "CCNA- IT Technician with strong focus on networking, infrastructure, and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years teaching advanced technical topics including cryptography, security, databases, and web development. Proven ability to lead technical practices, document processes, and guide groups of 25–30 students in real-world projects. English level B1+.",
+        "CCNA-certified IT Technician with strong focus on networking, infrastructure, and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years teaching advanced technical topics including cryptography, security, databases, and web development. Proven ability to lead technical practices, document processes, and guide groups of 25–30 students in real-world projects. English level B1+.",
       downloadCV: "Download CV",
       contact: "Contact Me",
     },
@@ -252,7 +252,7 @@ export const translations = {
   },
   es: {
     hero: {
-      title: "Ingeniero de Redes | Analista NOC | Certificado CCNA",
+      title: "Técnico en Informática Certificado CCNA | Redes e Infraestructura",
       location: "Río Tercero, Córdoba, Argentina",
       summary:
         "Técnico en Informática con certificación CCNA y fuerte orientación a redes, infraestructura y operación NOC. Experiencia práctica en configuración de routers y switches Cisco, VLAN, DHCP, NAT, troubleshooting, monitoreo y resolución de incidentes. Más de dos años de experiencia docente impartiendo contenidos técnicos avanzados en criptografía, seguridad, bases de datos y desarrollo web. Capacidad demostrada para liderar prácticas técnicas, documentar procesos y guiar a grupos de 25–30 alumnos en proyectos reales. Nivel de inglés B1+.",
