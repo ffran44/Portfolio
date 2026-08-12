@@ -123,24 +123,28 @@ export const translations = {
     projects: {
       title: "Projects",
       technologies: "Technologies",
+      viewRepo: "View Repository",
       items: [
         {
           name: "Integrated Topology (Packet Tracer)",
           description:
             "Comprehensive network topology featuring VLANs, ACLs, SSH, STP, OSPF, SVI, EtherChannel, NAT, DHCP, and WAN with BGP for inter-domain routing.",
           technologies: ["Cisco Packet Tracer", "VLANs", "OSPF", "ACLs", "NAT", "DHCP", "STP", "EtherChannel", "BGP"],
+          link: undefined,
         },
         {
           name: "Final Thesis (Unity + Web)",
           description:
             "Developed a video game using Unity with custom web backend for data management and user interactions.",
           technologies: ["Unity", "Web Development", "Backend", "Game Development"],
+          link: "https://github.com/Ivanddp/TinyDevs-web",
         },
         {
           name: "Lab Projects",
           description:
             "Built PHP/CodeIgniter CRUD applications, N8N automations, and advanced Google Sheets scripts for process automation.",
           technologies: ["PHP", "CodeIgniter", "MySQL", "N8N", "Google Sheets", "Automation"],
+          link: undefined,
         },
       ],
     },
@@ -376,24 +380,28 @@ export const translations = {
     projects: {
       title: "Proyectos Destacados",
       technologies: "Tecnologías",
+      viewRepo: "Ver Repositorio",
       items: [
         {
           name: "Topología Integradora (Packet Tracer)",
           description:
             "Topología de red completa que incluye VLANs, ACLs, SSH, STP, OSPF, SVI, EtherChannel, NAT, DHCP y WAN con BGP para enrutamiento entre dominios.",
           technologies: ["Packet Tracer", "VLANs", "OSPF", "ACLs", "NAT", "DHCP", "STP", "EtherChannel", "BGP"],
+          link: undefined,
         },
         {
           name: "Tesina Final (Unity + Web)",
           description:
             "Desarrollo de videojuego en Unity con backend web propio para gestión de datos e interacciones de usuario.",
           technologies: ["Unity", "Desarrollo Web", "Backend", "Desarrollo de Juegos"],
+          link: "https://github.com/Ivanddp/TinyDevs-web",
         },
         {
           name: "Proyectos de Laboratorio",
           description:
             "Construcción de aplicaciones CRUD en PHP/CodeIgniter, automatizaciones con N8N y scripts avanzados en Google Sheets para automatización de procesos.",
           technologies: ["PHP", "CodeIgniter", "MySQL", "N8N", "Google Sheets", "Automatización"],
+          link: undefined,
         },
       ],
     },

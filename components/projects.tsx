@@ -3,6 +3,7 @@
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
 import { Card } from "@/components/ui/card"
+import { ExternalLink } from "lucide-react"
 
 export function Projects() {
   const { t } = useLanguage()
@@ -28,6 +29,17 @@ export function Projects() {
                   ))}
                 </div>
               </div>
+              {project.link && (
+                <a
+                  href={project.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-accent hover:underline"
+                >
+                  <ExternalLink className="h-3.5 w-3.5" />
+                  {t.projects.viewRepo}
+                </a>
+              )}
             </article>
           </Card>
         ))}
