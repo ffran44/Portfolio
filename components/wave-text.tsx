@@ -50,7 +50,8 @@ export function WaveText({ text, className, as = "span", delayStep = 0.035 }: Wa
           className: `wave-char ${visible ? "wave-char-visible" : ""}`,
           style: { transitionDelay: `${i * delayStep}s` },
         },
-        ch === " " ? " " : ch,
+        // A regular space collapses to zero width inside an inline-block; nbsp keeps it measurable.
+        ch === " " ? " " : ch,
       ),
     ),
   )
