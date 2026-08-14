@@ -4,6 +4,8 @@ import { Montserrat, Geist_Mono, Original_Surfer } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { LanguageProvider } from "@/lib/language-context"
 import { LanguageToggle } from "@/components/language-toggle"
+import { ThemeProvider } from "@/lib/theme-context"
+import { ThemeToggle } from "@/components/theme-toggle"
 import { InteractiveBackground } from "@/components/interactive-background"
 import { CustomCursor } from "@/components/custom-cursor"
 import { AmbientAudioToggle } from "@/components/ambient-audio-toggle"
@@ -62,16 +64,28 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en" className="dark scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        {/* Set the theme class before first paint so there's no flash of the wrong theme. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "try{if(localStorage.getItem('theme')!=='light'){document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}",
+          }}
+        />
+      </head>
       <body className={`font-sans antialiased ${_montserrat.variable} ${_originalSurfer.variable}`}>
-        <InteractiveBackground />
-        <CustomCursor />
-        <LanguageProvider>
-          <LanguageToggle />
-          <AmbientAudioToggle />
-          <div className="relative z-10">{children}</div>
-        </LanguageProvider>
-        <Analytics />
+        <ThemeProvider>
+          <InteractiveBackground />
+          <CustomCursor />
+          <LanguageProvider>
+            <LanguageToggle />
+            <AmbientAudioToggle />
+            <ThemeToggle />
+            <div className="relative z-10">{children}</div>
+          </LanguageProvider>
+          <Analytics />
+        </ThemeProvider>
       </body>
     </html>
   )

@@ -4,42 +4,42 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Tropical ocean color palette */
-  --background: oklch(0.15 0.035 240);
-  --foreground: oklch(0.95 0.015 210);
-  --card: oklch(0.19 0.04 235);
-  --card-foreground: oklch(0.95 0.015 210);
-  --popover: oklch(0.19 0.04 235);
-  --popover-foreground: oklch(0.95 0.015 210);
-  --primary: oklch(0.95 0.015 210);
-  --primary-foreground: oklch(0.15 0.035 240);
-  --secondary: oklch(0.25 0.04 235);
-  --secondary-foreground: oklch(0.95 0.015 210);
-  --muted: oklch(0.25 0.04 235);
-  --muted-foreground: oklch(0.68 0.025 220);
-  --accent: oklch(0.74 0.13 200);
-  --accent-foreground: oklch(0.15 0.035 240);
-  --destructive: oklch(0.58 0.19 25);
-  --destructive-foreground: oklch(0.95 0.015 210);
-  --border: oklch(0.31 0.04 235);
-  --input: oklch(0.31 0.04 235);
-  --ring: oklch(0.74 0.13 200);
-  --chart-1: oklch(0.74 0.13 200);
-  --chart-2: oklch(0.72 0.16 35);
-  --chart-3: oklch(0.55 0.1 250);
-  --chart-4: oklch(0.68 0.1 170);
-  --chart-5: oklch(0.78 0.12 85);
+  /* Sandy beach palette — the light counterpart to the .dark ocean theme below */
+  --background: oklch(0.93 0.025 80);
+  --foreground: oklch(0.28 0.03 250);
+  --card: oklch(0.89 0.03 75);
+  --card-foreground: oklch(0.28 0.03 250);
+  --popover: oklch(0.89 0.03 75);
+  --popover-foreground: oklch(0.28 0.03 250);
+  --primary: oklch(0.28 0.03 250);
+  --primary-foreground: oklch(0.97 0.015 85);
+  --secondary: oklch(0.85 0.035 75);
+  --secondary-foreground: oklch(0.28 0.03 250);
+  --muted: oklch(0.85 0.035 75);
+  --muted-foreground: oklch(0.48 0.03 70);
+  --accent: oklch(0.55 0.13 200);
+  --accent-foreground: oklch(0.98 0.01 85);
+  --destructive: oklch(0.55 0.19 25);
+  --destructive-foreground: oklch(0.97 0.015 85);
+  --border: oklch(0.78 0.035 75);
+  --input: oklch(0.78 0.035 75);
+  --ring: oklch(0.55 0.13 200);
+  --chart-1: oklch(0.55 0.13 200);
+  --chart-2: oklch(0.62 0.16 35);
+  --chart-3: oklch(0.45 0.1 250);
+  --chart-4: oklch(0.55 0.1 170);
+  --chart-5: oklch(0.65 0.12 85);
   --radius: 0.5rem;
-  --sidebar: oklch(0.19 0.04 235);
-  --sidebar-foreground: oklch(0.95 0.015 210);
-  --sidebar-primary: oklch(0.74 0.13 200);
-  --sidebar-primary-foreground: oklch(0.15 0.035 240);
-  --sidebar-accent: oklch(0.25 0.04 235);
-  --sidebar-accent-foreground: oklch(0.95 0.015 210);
-  --sidebar-border: oklch(0.31 0.04 235);
-  --sidebar-ring: oklch(0.74 0.13 200);
-  --coral: oklch(0.72 0.16 35);
-  --lagoon: oklch(0.8 0.1 190);
+  --sidebar: oklch(0.89 0.03 75);
+  --sidebar-foreground: oklch(0.28 0.03 250);
+  --sidebar-primary: oklch(0.55 0.13 200);
+  --sidebar-primary-foreground: oklch(0.97 0.015 85);
+  --sidebar-accent: oklch(0.85 0.035 75);
+  --sidebar-accent-foreground: oklch(0.28 0.03 250);
+  --sidebar-border: oklch(0.78 0.035 75);
+  --sidebar-ring: oklch(0.55 0.13 200);
+  --coral: oklch(0.62 0.16 35);
+  --lagoon: oklch(0.6 0.1 190);
 }
 
 .dark {
@@ -353,6 +353,48 @@
     }
   }
 
+  /* Light/dark theme switch: a circle of sand or water spreads from the toggle button,
+     covers the screen while the theme swaps underneath, then recedes to reveal it. */
+  .theme-transition-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    pointer-events: none;
+    overflow: hidden;
+    transition: clip-path 0.65s cubic-bezier(0.65, 0, 0.35, 1);
+    will-change: clip-path;
+  }
+
+  .theme-transition-sand {
+    background: linear-gradient(160deg, oklch(0.91 0.03 80) 0%, oklch(0.83 0.045 75) 55%, oklch(0.76 0.05 70) 100%);
+  }
+
+  .theme-transition-grain {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    border-radius: 9999px;
+    background: oklch(0.6 0.05 65 / 0.35);
+    box-shadow: 0 0 0 1px oklch(0.97 0.02 85 / 0.4);
+  }
+
+  .theme-transition-water {
+    background: linear-gradient(160deg, oklch(0.18 0.045 235) 0%, oklch(0.32 0.09 210) 55%, oklch(0.5 0.13 195) 100%);
+  }
+
+  .theme-transition-waves {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 200%;
+    height: 20%;
+    animation: wave-drift 9s linear infinite;
+  }
+
+  .theme-transition-waves path {
+    fill: oklch(0.8 0.1 190 / 0.55);
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .section-reveal {
       opacity: 1;
@@ -369,6 +411,14 @@
     }
 
     .ambient-blob {
+      animation: none;
+    }
+
+    .theme-transition-overlay {
+      transition: none;
+    }
+
+    .theme-transition-waves {
       animation: none;
     }
 
