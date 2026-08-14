@@ -1,17 +1,17 @@
 export const translations = {
   en: {
     hero: {
-      title: "CCNA-Certified IT Technician | Network & Infrastructure",
+      title: "IT Technician | CCNA | Network & Infrastructure",
       location: "Río Tercero, Córdoba, Argentina",
       summary:
-        "CCNA-certified IT Technician with strong focus on networking, infrastructure, and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years teaching advanced technical topics including cryptography, security, databases, and web development. Proven ability to lead technical practices, document processes, and guide groups of 25–30 students in real-world projects. English level B1+.",
+        "IT Technician with CCNA-level networking training and a strong focus on infrastructure and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years teaching advanced technical topics including cryptography, security, databases, and web development. Proven ability to lead technical practices, document processes, and guide groups of 25–30 students in real-world projects. English level B1+.",
       downloadCV: "Download CV",
       contact: "Contact Me",
     },
     professionalSummary: {
       title: "Professional Summary",
       content:
-        "CCNA-certified IT Technician with strong focus on networking, infrastructure, and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years of teaching experience delivering advanced technical content in cryptography, security, databases, and web development. Demonstrated ability to lead technical practices, document processes, and guide groups of 25–30 students through real-world projects. English level B1+.",
+        "IT Technician with CCNA-level networking training and a strong focus on infrastructure and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years of teaching experience delivering advanced technical content in cryptography, security, databases, and web development. Demonstrated ability to lead technical practices, document processes, and guide groups of 25–30 students through real-world projects. English level B1+.",
       atsStatement:
         "Experienced in 24/7 environments, shift-based operations, ticket-driven workflows, escalation procedures, and SLA awareness.",
     },
@@ -153,7 +153,7 @@ export const translations = {
       viewAll: "View All Certifications",
       items: [
         {
-          name: "Cisco Certified Network Associate (CCNA) – CCNA1/2/3",
+          name: "CCNA Coursework – CCNA1, CCNA2, CCNA3",
           issuer: "Cisco Networking Academy",
           link: "https://www.credly.com/users/francisco-rissone/badges",
         },
@@ -256,17 +256,17 @@ export const translations = {
   },
   es: {
     hero: {
-      title: "Técnico en Informática Certificado CCNA | Redes e Infraestructura",
+      title: "Técnico en Informática | CCNA | Redes e Infraestructura",
       location: "Río Tercero, Córdoba, Argentina",
       summary:
-        "Técnico en Informática con certificación CCNA y fuerte orientación a redes, infraestructura y operación NOC. Experiencia práctica en configuración de routers y switches Cisco, VLAN, DHCP, NAT, troubleshooting, monitoreo y resolución de incidentes. Más de dos años de experiencia docente impartiendo contenidos técnicos avanzados en criptografía, seguridad, bases de datos y desarrollo web. Capacidad demostrada para liderar prácticas técnicas, documentar procesos y guiar a grupos de 25–30 alumnos en proyectos reales. Nivel de inglés B1+.",
+        "Técnico en Informática con formación CCNA y fuerte orientación a redes, infraestructura y operación NOC. Experiencia práctica en configuración de routers y switches Cisco, VLAN, DHCP, NAT, troubleshooting, monitoreo y resolución de incidentes. Más de dos años de experiencia docente impartiendo contenidos técnicos avanzados en criptografía, seguridad, bases de datos y desarrollo web. Capacidad demostrada para liderar prácticas técnicas, documentar procesos y guiar a grupos de 25–30 alumnos en proyectos reales. Nivel de inglés B1+.",
       downloadCV: "Descargar CV",
       contact: "Contactar",
     },
     professionalSummary: {
       title: "Perfil Profesional",
       content:
-        "Técnico en Informática con certificación CCNA y fuerte orientación a redes, infraestructura y operación NOC. Experiencia práctica en configuración de routers y switches Cisco, VLAN, DHCP, NAT, troubleshooting, monitoreo y resolución de incidentes. Más de dos años de experiencia docente impartiendo contenidos técnicos avanzados en criptografía, seguridad, bases de datos y desarrollo web. Capacidad demostrada para liderar prácticas técnicas, documentar procesos y guiar a grupos de 25–30 alumnos en proyectos reales. Nivel de inglés B1+.",
+        "Técnico en Informática con formación CCNA y fuerte orientación a redes, infraestructura y operación NOC. Experiencia práctica en configuración de routers y switches Cisco, VLAN, DHCP, NAT, troubleshooting, monitoreo y resolución de incidentes. Más de dos años de experiencia docente impartiendo contenidos técnicos avanzados en criptografía, seguridad, bases de datos y desarrollo web. Capacidad demostrada para liderar prácticas técnicas, documentar procesos y guiar a grupos de 25–30 alumnos en proyectos reales. Nivel de inglés B1+.",
       atsStatement:
         "Experiencia en entornos 24/7, operaciones basadas en turnos, flujos de trabajo orientados a tickets, procedimientos de escalamiento y conciencia de SLA.",
     },
@@ -410,7 +410,7 @@ export const translations = {
       viewAll: "Ver Todas las Certificaciones",
       items: [
         {
-          name: "Cisco Certified Network Associate (CCNA) – CCNA1/2/3",
+          name: "CCNA Coursework – CCNA1, CCNA2, CCNA3",
           issuer: "Cisco Networking Academy",
           link: "https://www.credly.com/users/francisco-rissone/badges",
         },

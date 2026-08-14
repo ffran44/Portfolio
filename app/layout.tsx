@@ -15,9 +15,9 @@ const _montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
 const _originalSurfer = Original_Surfer({ subsets: ["latin"], weight: "400", variable: "--font-serif" })
 
-const title = "Francisco Rissone | CCNA-Certified IT Technician"
+const title = "Francisco Rissone | IT Technician | CCNA"
 const description =
-  "CCNA-certified IT Technician portfolio, focused on Cisco networking, VLAN configuration, routing protocols, and infrastructure management."
+  "IT Technician portfolio with CCNA-level networking training, focused on Cisco networking, VLAN configuration, routing protocols, and infrastructure management."
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://portfolio-rissonefran.vercel.app"),
