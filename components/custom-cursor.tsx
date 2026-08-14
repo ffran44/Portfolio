@@ -14,7 +14,6 @@ export function CustomCursor() {
 
     document.documentElement.classList.add("custom-cursor-active")
 
-    let hasShown = false
     const handleMove = (e: MouseEvent) => {
       // Write the position straight from the event instead of deferring to the next
       // animation frame — that extra hop was adding a visible frame of lag on desktop,
@@ -23,10 +22,10 @@ export function CustomCursor() {
         "transform",
         `translate3d(${e.clientX}px, ${e.clientY}px, 0) translate(-50%, -50%)`,
       )
-      if (!hasShown) {
-        hasShown = true
-        setVisible(true)
-      }
+      // React bails out when the value is unchanged, so this is cheap even though it
+      // runs on every move — it's also what lets the cursor reappear after handleLeave
+      // hides it (e.g. the pointer left the viewport and came back).
+      setVisible(true)
     }
 
     const handleOver = (e: MouseEvent) => {
