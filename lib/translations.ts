@@ -230,6 +230,28 @@ export const translations = {
       errorMessage: "Failed to send message. Please try again.",
       copied: "Copied!",
     },
+    aboutMe: {
+      tabLabel: "About Me",
+      close: "Close",
+      slides: [
+        {
+          title: "Who I Am",
+          text: "I'm a pretty social person, not afraid to build relationships. Through the different stages of my life I've kept a lot of friendships that are still with me today.",
+        },
+        {
+          title: "Aston",
+          text: "I've got a dog, Aston — being a dog doesn't stop him from being a friend, maybe my best one.",
+        },
+        {
+          title: "Belgrano Fan",
+          text: "I love football, and I'm a Belgrano fan through and through.",
+        },
+        {
+          title: "Free Time",
+          text: "Beyond networking and code: music, video games, movies, and shows.",
+        },
+      ],
+    },
     operationalImpact: {
       title: "Operational Impact",
       items: [
@@ -486,6 +508,28 @@ export const translations = {
       successMessage: "¡Gracias por tu mensaje! Te responderé pronto.",
       errorMessage: "Error al enviar el mensaje. Por favor intenta de nuevo.",
       copied: "¡Copiado!",
+    },
+    aboutMe: {
+      tabLabel: "Sobre Mí",
+      close: "Cerrar",
+      slides: [
+        {
+          title: "Quién Soy",
+          text: "Soy una persona bastante social, que no tiene miedo de entablar relaciones. Durante las diferentes etapas de mi vida he conservado muchos amigos que hasta el día de hoy me acompañan.",
+        },
+        {
+          title: "Aston",
+          text: "Tengo un perro, Aston, que por ser perro no deja de ser un amigo — quizás mi mejor amigo.",
+        },
+        {
+          title: "Hincha de Belgrano",
+          text: "Me gusta mucho el fútbol, y soy hincha de Belgrano a muerte.",
+        },
+        {
+          title: "Tiempo Libre",
+          text: "Más allá de las redes y el código: música, videojuegos, películas y series.",
+        },
+      ],
     },
     operationalImpact: {
       title: "Impacto Operacional",
