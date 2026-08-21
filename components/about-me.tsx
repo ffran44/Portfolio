@@ -85,20 +85,22 @@ export function AboutMe() {
           aria-label={t.aboutMe.tabLabel}
         >
           <div
-            className="card-forge relative w-full max-w-md rounded-2xl border border-accent/30 bg-card p-8"
+            className="relative flex flex-col items-center gap-6"
             onClick={(e) => e.stopPropagation()}
-            onTouchStart={handleTouchStart}
-            onTouchEnd={handleTouchEnd}
           >
             <button
               onClick={() => setOpen(false)}
               aria-label={t.aboutMe.close}
-              className="absolute right-4 top-4 text-muted-foreground transition-colors hover:text-accent"
+              className="absolute -top-2 right-2 z-10 text-muted-foreground transition-colors hover:text-accent"
             >
               <X className="h-5 w-5" />
             </button>
 
-            <div className="flex flex-col items-center gap-5 text-center">
+            <div
+              className="card-forge flex aspect-square w-[min(85vw,22rem)] flex-col items-center justify-center gap-4 rounded-full border border-accent/30 bg-card px-10 text-center"
+              onTouchStart={handleTouchStart}
+              onTouchEnd={handleTouchEnd}
+            >
               {Array.isArray(icons) ? (
                 <div className="flex gap-3">
                   {icons.map((Icon, i) => (
@@ -113,7 +115,7 @@ export function AboutMe() {
               <p className="text-sm leading-relaxed text-muted-foreground">{slides[index].text}</p>
             </div>
 
-            <div className="mt-6 flex items-center justify-center gap-4">
+            <div className="flex items-center justify-center gap-4">
               <button
                 onClick={prev}
                 aria-label={language === "en" ? "Previous" : "Anterior"}
