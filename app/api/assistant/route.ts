@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { translations } from "@/lib/translations"
 
-const MODEL = "gemini-2.0-flash"
+const MODEL = "gemini-3.6-flash"
 const MAX_HISTORY = 10
 const MAX_MESSAGE_LENGTH = 2000
 
