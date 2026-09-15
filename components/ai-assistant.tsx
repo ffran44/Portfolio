@@ -21,10 +21,10 @@ export function AiAssistant() {
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
-  const viewportRef = useRef<HTMLDivElement>(null)
+  const bottomRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    viewportRef.current?.scrollTo({ top: viewportRef.current.scrollHeight, behavior: "smooth" })
+    bottomRef.current?.scrollIntoView({ behavior: "smooth", block: "end" })
   }, [messages, loading])
 
   const handleSubmit = async (event: FormEvent) => {
@@ -75,8 +75,8 @@ export function AiAssistant() {
             </Button>
           </div>
 
-          <ScrollArea className="flex-1 px-4 py-3">
-            <div ref={viewportRef} className="flex flex-col gap-3">
+          <ScrollArea className="min-h-0 flex-1 px-4 py-3">
+            <div className="flex flex-col gap-3">
               <div className="rounded-lg bg-muted px-3 py-2 text-sm text-muted-foreground">{t.assistant.greeting}</div>
               {messages.map((message, index) => (
                 <div
@@ -97,6 +97,7 @@ export function AiAssistant() {
                   {t.assistant.thinking}
                 </div>
               )}
+              <div ref={bottomRef} />
             </div>
           </ScrollArea>
 
