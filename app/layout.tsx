@@ -10,6 +10,7 @@ import { InteractiveBackground } from "@/components/interactive-background"
 import { CustomCursor } from "@/components/custom-cursor"
 import { AmbientAudioToggle } from "@/components/ambient-audio-toggle"
 import { AboutMe } from "@/components/about-me"
+import { AiAssistant } from "@/components/ai-assistant"
 import "./globals.css"
 
 const _montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" })
@@ -84,6 +85,7 @@ export default function RootLayout({
             <AmbientAudioToggle />
             <ThemeToggle />
             <AboutMe />
+            <AiAssistant />
             <div className="relative z-10">{children}</div>
           </LanguageProvider>
           <Analytics />
