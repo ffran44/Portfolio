@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server"
 import { translations } from "@/lib/translations"
 
-const MODEL = "gpt-4o-mini"
+const MODEL = "gemini-2.0-flash"
 const MAX_HISTORY = 10
 const MAX_MESSAGE_LENGTH = 2000
 
@@ -43,9 +43,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "messages array is required" }, { status: 400 })
     }
 
-    const apiKey = process.env.OPENAI_API_KEY
+    const apiKey = process.env.GEMINI_API_KEY
     if (!apiKey) {
-      console.error("[assistant] Missing OPENAI_API_KEY")
+      console.error("[assistant] Missing GEMINI_API_KEY")
       return NextResponse.json({ error: "Assistant is not configured yet." }, { status: 503 })
     }
 
@@ -67,28 +67,33 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "messages array is required" }, { status: 400 })
     }
 
-    const response = await fetch("https://api.openai.com/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${apiKey}`,
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${apiKey}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: buildSystemPrompt(language) }] },
+          contents: sanitized.map((message) => ({
+            role: message.role === "assistant" ? "model" : "user",
+            parts: [{ text: message.content }],
+          })),
+          generationConfig: { temperature: 0.6, maxOutputTokens: 400 },
+        }),
       },
-      body: JSON.stringify({
-        model: MODEL,
-        messages: [{ role: "system", content: buildSystemPrompt(language) }, ...sanitized],
-        temperature: 0.6,
-        max_tokens: 400,
-      }),
-    })
+    )
 
     if (!response.ok) {
       const errorBody = await response.text()
-      console.error("[assistant] OpenAI error:", response.status, errorBody)
+      console.error("[assistant] Gemini error:", response.status, errorBody)
       return NextResponse.json({ error: "Failed to reach the assistant." }, { status: 502 })
     }
 
     const data = await response.json()
-    const reply: string | undefined = data?.choices?.[0]?.message?.content?.trim()
+    const reply: string | undefined = data?.candidates?.[0]?.content?.parts
+      ?.map((part: { text?: string }) => part.text ?? "")
+      .join("")
+      .trim()
 
     if (!reply) {
       return NextResponse.json({ error: "Empty response from assistant." }, { status: 502 })
