@@ -59,17 +59,17 @@ export function AboutMe() {
         onClick={openTab}
         aria-label={t.aboutMe.tabLabel}
         className={cn(
-          "fixed right-0 top-1/2 z-40 -translate-y-1/2 translate-x-1/2",
+          "fixed left-0 top-1/2 z-40 -translate-y-1/2 -translate-x-1/2",
           "h-24 w-24 rounded-full",
           "bg-card/90 border border-accent/40 backdrop-blur-sm",
           "shadow-[0_0_20px_-6px_oklch(0.74_0.13_200/0.5)]",
           "flex items-center justify-center",
-          "transition-transform duration-300 hover:translate-x-[calc(50%-0.5rem)]",
-          "motion-reduce:transition-none motion-reduce:hover:translate-x-1/2",
+          "transition-transform duration-300 hover:-translate-x-[calc(50%-0.5rem)]",
+          "motion-reduce:transition-none motion-reduce:hover:-translate-x-1/2",
         )}
       >
         <span
-          className="text-xs font-semibold tracking-wide text-accent -translate-x-6"
+          className="text-xs font-semibold tracking-wide text-accent translate-x-6"
           style={{ writingMode: "vertical-rl" }}
         >
           {t.aboutMe.tabLabel}
