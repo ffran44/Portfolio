@@ -1,6 +1,6 @@
 "use client"
 
-import { Award, Cloud, ExternalLink, Factory, Languages, ShieldCheck } from "lucide-react"
+import { Award, Cloud, Cpu, ExternalLink, Factory, Languages, Network, ShieldCheck, Sparkles, type LucideIcon } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
 import { SectionWrapper } from "@/components/section-wrapper"
 import { IconBadge } from "@/components/icon-badge"
@@ -10,7 +10,17 @@ import { TiltCard } from "@/components/tilt-card"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-const ICONS = [Award, Languages, Languages, Cloud, Factory, ShieldCheck]
+function iconFor(name: string, issuer?: string): LucideIcon {
+  const text = `${name} ${issuer ?? ""}`.toLowerCase()
+  if (text.includes("anthropic") || text.includes("claude")) return Sparkles
+  if (text.includes("english")) return Languages
+  if (text.includes("aws") || text.includes("cloud")) return Cloud
+  if (text.includes("industrial")) return Factory
+  if (text.includes("defense") || text.includes("defensa")) return ShieldCheck
+  if (text.includes("internet of things") || text.includes("internet de las cosas")) return Cpu
+  if (text.includes("ccna")) return Network
+  return Award
+}
 
 export function Certifications() {
   const { t } = useLanguage()
@@ -20,7 +30,7 @@ export function Certifications() {
       <div className="mx-auto max-w-5xl space-y-12">
         <div className="grid gap-4 md:grid-cols-3 md:gap-5">
           {t.certifications.items.map((cert, index) => {
-            const Icon = ICONS[index % ICONS.length]
+            const Icon = iconFor(cert.name, cert.issuer)
             const featured = index === 0
             return (
               <Reveal

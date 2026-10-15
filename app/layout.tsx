@@ -13,6 +13,7 @@ import { AboutMe } from "@/components/about-me"
 import { Preloader } from "@/components/preloader"
 import { ClickRipple } from "@/components/click-ripple"
 import { DepthCable } from "@/components/depth-cable"
+import { AiAssistant } from "@/components/ai-assistant"
 import "./globals.css"
 import "./experience.css"
 
@@ -94,6 +95,7 @@ export default function RootLayout({
             <ThemeToggle />
             <AboutMe />
             <DepthCable />
+            <AiAssistant />
             <div className="relative z-10">{children}</div>
           </LanguageProvider>
           <Analytics />

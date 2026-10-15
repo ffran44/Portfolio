@@ -64,16 +64,18 @@ export function AboutMe() {
         className={cn(
           "fixed z-40 border border-accent/40 bg-card/90 text-accent backdrop-blur-sm",
           "shadow-[0_0_20px_-6px_oklch(0.74_0.13_200/0.5)]",
-          // phones: a small pill in the corner, so it never sits on top of the text
-          "bottom-6 right-4 flex items-center justify-center rounded-full px-4 py-2.5",
-          // md and up: the half-circle tab on the edge
-          "md:bottom-auto md:right-0 md:top-1/2 md:h-24 md:w-24 md:-translate-y-1/2 md:translate-x-1/2 md:px-0 md:py-0",
-          "md:transition-transform md:duration-300 md:hover:translate-x-[calc(50%-0.5rem)]",
-          "motion-reduce:transition-none motion-reduce:hover:translate-x-1/2",
+          // phones: a small pill in the bottom-left corner (the AI assistant sits bottom-right)
+          "bottom-6 left-4 flex items-center justify-center rounded-full px-4 py-2.5",
+          // md and up: the half-circle tab peeking from the left edge
+          "md:bottom-auto md:left-0 md:top-1/2 md:h-24 md:w-24 md:-translate-x-1/2 md:-translate-y-1/2 md:px-0 md:py-0",
+          // xl: the depth cable runs down the middle of the left edge, so the tab drops below it
+          "xl:top-auto xl:bottom-10 xl:translate-y-0",
+          "md:transition-transform md:duration-300 md:hover:-translate-x-[calc(50%-0.5rem)]",
+          "motion-reduce:transition-none motion-reduce:hover:-translate-x-1/2",
         )}
       >
         <span
-          className="text-sm font-semibold tracking-wide text-accent md:-translate-x-6 md:[writing-mode:vertical-rl]"
+          className="text-sm font-semibold tracking-wide text-accent md:translate-x-6 md:[writing-mode:vertical-rl]"
         >
           {t.aboutMe.tabLabel}
         </span>
