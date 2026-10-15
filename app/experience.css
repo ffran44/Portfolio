@@ -1815,6 +1815,246 @@ html.preload .hero-in {
   }
 }
 
+/* ---- About me: a message in a bottle, bobbing in the bottom-left corner ---- */
+
+.bottle-trigger {
+  position: fixed;
+  left: 1rem;
+  bottom: 1rem;
+  z-index: 40;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+/* On phones the label sits above the bottle, clear of the centred "Dive in" cue. */
+@media (max-width: 640px) {
+  .bottle-trigger {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    gap: 0.35rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .bottle-trigger {
+    left: 1.5rem;
+    bottom: 1.5rem;
+  }
+}
+
+.bottle-float {
+  position: relative;
+  display: block;
+  width: 3.25rem;
+  height: 4.75rem;
+  transform-origin: 50% 90%;
+  filter: drop-shadow(0 6px 14px color-mix(in oklab, var(--accent) 35%, transparent));
+  animation: bottle-bob 4.2s ease-in-out infinite;
+  transition:
+    filter 0.3s var(--ease-out),
+    scale 0.16s var(--ease-out);
+}
+
+.bottle-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.bottle-glass {
+  fill: color-mix(in oklab, var(--lagoon) 26%, transparent);
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-linejoin: round;
+}
+
+.bottle-paper {
+  fill: oklch(0.95 0.035 85);
+  stroke: oklch(0.7 0.05 75);
+  stroke-width: 1;
+}
+
+.bottle-ink {
+  fill: none;
+  stroke: oklch(0.55 0.04 70);
+  stroke-width: 1.3;
+  stroke-linecap: round;
+}
+
+.bottle-ribbon {
+  fill: var(--coral);
+}
+
+.bottle-shine {
+  fill: none;
+  stroke: oklch(1 0 0 / 0.55);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+}
+
+.bottle-cork rect {
+  fill: oklch(0.66 0.09 62);
+  stroke: oklch(0.45 0.07 55);
+  stroke-width: 1.2;
+}
+
+.bottle-cork path {
+  fill: none;
+  stroke: oklch(0.5 0.07 55);
+  stroke-width: 1;
+  stroke-linecap: round;
+}
+
+.bottle-cork,
+.bottle-scroll-wrap {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    transform 0.38s var(--ease-out),
+    opacity 0.38s var(--ease-out);
+}
+
+.is-uncorking .bottle-float {
+  animation-play-state: paused;
+}
+
+.is-uncorking .bottle-cork {
+  opacity: 0;
+  transform: translate(5px, -16px) rotate(-30deg);
+}
+
+.is-uncorking .bottle-scroll-wrap {
+  transform: translateY(-11px);
+}
+
+.bottle-ripple {
+  position: absolute;
+  left: 0.25rem;
+  bottom: -0.15rem;
+  width: 2.75rem;
+  height: 0.6rem;
+  border: 2px solid color-mix(in oklab, var(--accent) 55%, transparent);
+  border-radius: 9999px;
+  animation: bottle-ripple 4.2s ease-in-out infinite;
+}
+
+@keyframes bottle-bob {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-7deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(6deg);
+  }
+}
+
+@keyframes bottle-ripple {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scaleX(0.75);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scaleX(1.1);
+  }
+}
+
+/* The label introduces itself once after load, then waits for a hover or focus. */
+.bottle-label {
+  padding: 0.4rem 0.85rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  white-space: nowrap;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--card) 92%, transparent);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 35%, transparent);
+  opacity: 0;
+  transform: translate3d(-8px, 0, 0);
+  pointer-events: none;
+  transition:
+    opacity 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+  animation: bottle-label-peek 6s var(--ease-out) 2.6s backwards;
+}
+
+@keyframes bottle-label-peek {
+  0% {
+    opacity: 0;
+    transform: translate3d(-8px, 0, 0);
+  }
+  8%,
+  82% {
+    opacity: 1;
+    transform: none;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(-8px, 0, 0);
+  }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bottle-trigger:hover .bottle-label {
+    opacity: 1;
+    transform: none;
+  }
+
+  .bottle-trigger:hover .bottle-float {
+    filter: drop-shadow(0 6px 20px color-mix(in oklab, var(--accent) 75%, transparent));
+  }
+}
+
+.bottle-trigger:focus-visible .bottle-label {
+  opacity: 1;
+  transform: none;
+}
+
+.bottle-trigger:active .bottle-float {
+  scale: 0.94;
+}
+
+/* ---- About me dialog ---- */
+
+.about-overlay {
+  animation: about-fade 0.25s var(--ease-out) both;
+}
+
+.about-dialog {
+  animation: about-rise 0.4s var(--ease-out) both;
+}
+
+.about-slide {
+  animation: about-slide 0.4s var(--ease-out) both;
+}
+
+@keyframes about-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes about-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0) scale(0.96);
+  }
+}
+
+@keyframes about-slide {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+    filter: blur(4px);
+  }
+}
+
 /* ---- Reduced motion: keep content and meaning, drop the travel ---- */
 
 @media (prefers-reduced-motion: reduce) {
@@ -1890,5 +2130,19 @@ html.preload .hero-in {
 
   .flow-node::after {
     opacity: 0;
+  }
+
+  .bottle-float,
+  .bottle-ripple,
+  .about-overlay,
+  .about-dialog,
+  .about-slide {
+    animation: none;
+  }
+
+  .bottle-label {
+    opacity: 1;
+    transform: none;
+    animation: none;
   }
 }

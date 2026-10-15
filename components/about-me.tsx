@@ -4,6 +4,7 @@ import { useEffect, useRef, useState, type TouchEvent } from "react"
 import { ChevronLeft, ChevronRight, Clapperboard, Gamepad2, Music, PawPrint, Trophy, Users, X, type LucideIcon } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
 import { IconBadge } from "@/components/icon-badge"
+import { prefersReducedMotion } from "@/lib/motion"
 import { cn } from "@/lib/utils"
 
 const SLIDE_ICONS = [Users, PawPrint, Trophy, [Music, Gamepad2, Clapperboard]] as const
@@ -15,6 +16,7 @@ export function AboutMe() {
   const { t, language } = useLanguage()
   const [open, setOpen] = useState(false)
   const [index, setIndex] = useState(0)
+  const [uncorking, setUncorking] = useState(false)
   const touchStartX = useRef<number | null>(null)
 
   const slides = t.aboutMe.slides
@@ -49,9 +51,19 @@ export function AboutMe() {
     touchStartX.current = null
   }
 
+  // The cork pops first, then the story opens.
   const openTab = () => {
+    if (uncorking) return
     setIndex(0)
-    setOpen(true)
+    if (prefersReducedMotion()) {
+      setOpen(true)
+      return
+    }
+    setUncorking(true)
+    window.setTimeout(() => {
+      setOpen(true)
+      setUncorking(false)
+    }, 380)
   }
 
   const icons = SLIDE_ICONS[index]
@@ -59,38 +71,46 @@ export function AboutMe() {
   return (
     <>
       <button
+        type="button"
         onClick={openTab}
         aria-label={t.aboutMe.tabLabel}
-        className={cn(
-          "fixed z-40 border border-accent/40 bg-card/90 text-accent backdrop-blur-sm",
-          "shadow-[0_0_20px_-6px_oklch(0.74_0.13_200/0.5)]",
-          // phones: a small pill in the bottom-left corner (the AI assistant sits bottom-right)
-          "bottom-6 left-4 flex items-center justify-center rounded-full px-4 py-2.5",
-          // md and up: the half-circle tab peeking from the left edge
-          "md:bottom-auto md:left-0 md:top-1/2 md:h-24 md:w-24 md:-translate-x-1/2 md:-translate-y-1/2 md:px-0 md:py-0",
-          // xl: the depth cable runs down the middle of the left edge, so the tab drops below it
-          "xl:top-auto xl:bottom-10 xl:translate-y-0",
-          "md:transition-transform md:duration-300 md:hover:-translate-x-[calc(50%-0.5rem)]",
-          "motion-reduce:transition-none motion-reduce:hover:-translate-x-1/2",
-        )}
+        className={cn("bottle-trigger", uncorking && "is-uncorking")}
       >
-        <span
-          className="text-sm font-semibold tracking-wide text-accent md:translate-x-6 md:[writing-mode:vertical-rl]"
-        >
-          {t.aboutMe.tabLabel}
+        <span className="bottle-ripple" aria-hidden="true" />
+        <span className="bottle-float" aria-hidden="true">
+          <svg className="bottle-svg" viewBox="0 0 48 72">
+            <path
+              className="bottle-glass"
+              d="M19 12h10v9c0 3 11 5 11 14v26a7 7 0 0 1-7 7H15a7 7 0 0 1-7-7V35c0-9 11-11 11-14z"
+            />
+            <g className="bottle-scroll-wrap">
+              <g transform="rotate(-14 24 46)">
+                <rect className="bottle-paper" x="13" y="38" width="22" height="15" rx="3" />
+                <path className="bottle-ink" d="M16.5 43h9M16.5 47h7" />
+                <rect className="bottle-ribbon" x="27" y="38" width="3" height="15" />
+              </g>
+            </g>
+            <path className="bottle-shine" d="M13.5 37v19" />
+            <path className="bottle-shine" d="M15.5 26l1.6-1.6" />
+            <g className="bottle-cork">
+              <rect x="18" y="2" width="12" height="11" rx="2.5" />
+              <path d="M20.5 5.5h7M20.5 9h7" />
+            </g>
+          </svg>
         </span>
+        <span className="bottle-label">{t.aboutMe.tabLabel}</span>
       </button>
 
       {open && (
         <div
-          className="fixed inset-0 z-[90] flex items-center justify-center bg-background/70 backdrop-blur-sm p-4"
+          className="about-overlay fixed inset-0 z-[90] flex items-center justify-center bg-background/70 backdrop-blur-sm p-4"
           onClick={() => setOpen(false)}
           role="dialog"
           aria-modal="true"
           aria-label={t.aboutMe.tabLabel}
         >
           <div
-            className="relative flex flex-col items-center gap-6"
+            className="about-dialog relative flex flex-col items-center gap-6"
             onClick={(e) => e.stopPropagation()}
           >
             <button
@@ -106,18 +126,20 @@ export function AboutMe() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
-              {isIconGroup(icons) ? (
-                <div className="flex gap-3">
-                  {icons.map((Icon, i) => (
-                    <IconBadge key={i} icon={Icon} size="md" />
-                  ))}
-                </div>
-              ) : (
-                <IconBadge icon={icons} size="lg" />
-              )}
+              <div key={index} className="about-slide flex flex-col items-center gap-4">
+                {isIconGroup(icons) ? (
+                  <div className="flex gap-3">
+                    {icons.map((Icon, i) => (
+                      <IconBadge key={i} icon={Icon} size="md" />
+                    ))}
+                  </div>
+                ) : (
+                  <IconBadge icon={icons} size="lg" />
+                )}
 
-              <h3 className="font-serif text-2xl font-bold text-foreground">{slides[index].title}</h3>
-              <p className="text-sm leading-relaxed text-muted-foreground">{slides[index].text}</p>
+                <h3 className="font-serif text-2xl font-bold text-foreground">{slides[index].title}</h3>
+                <p className="text-base leading-relaxed text-foreground/80">{slides[index].text}</p>
+              </div>
             </div>
 
             <div className="flex items-center justify-center gap-4">
