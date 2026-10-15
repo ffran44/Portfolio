@@ -1,61 +1,42 @@
 "use client"
 
-import { type ReactNode, useEffect, useRef, useState } from "react"
+import type { ReactNode } from "react"
+import { Reveal } from "@/components/reveal"
 import { WaveText } from "@/components/wave-text"
+import { cn } from "@/lib/utils"
 
 interface SectionWrapperProps {
   id: string
   title: string
   children: ReactNode
+  /** "soft" lays a faint tone step behind the section so neighbouring sections read as different zones. */
+  tone?: "plain" | "soft"
+  className?: string
 }
 
-export function SectionWrapper({ id, title, children }: SectionWrapperProps) {
-  const ref = useRef<HTMLElement>(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      setVisible(true)
-      return
-    }
-
-    const el = ref.current
-    if (!el) return
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.disconnect()
-        }
-      },
-      { threshold: 0.1 },
-    )
-
-    observer.observe(el)
-    return () => observer.disconnect()
-  }, [])
-
+export function SectionWrapper({ id, title, children, tone = "plain", className }: SectionWrapperProps) {
   return (
     <section
-      ref={ref}
       id={id}
-      className={`py-20 px-4 relative section-reveal ${visible ? "section-reveal-visible" : ""}`}
+      className={cn("relative scroll-mt-4 px-4 py-24 md:py-32", tone === "soft" && "section-soft", className)}
     >
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-24 h-px bg-gradient-to-r from-transparent via-accent to-transparent opacity-50" />
-
-      <div className="container max-w-7xl mx-auto">
-        <header className="text-center mb-16">
+      <div className="container mx-auto max-w-7xl">
+        <header className="mb-14 flex flex-col items-center md:mb-20">
           <WaveText
             as="h2"
             text={title}
-            className="font-serif text-4xl md:text-5xl font-bold text-foreground mb-4 text-balance"
+            className="text-balance text-center font-serif text-[clamp(2.25rem,6vw,3.75rem)] font-bold leading-[1.05] text-foreground"
           />
-          <div className="flex items-center justify-center gap-3" aria-hidden="true">
-            <span className="h-px w-16 bg-gradient-to-r from-transparent to-accent/70" />
-            <span className="w-2 h-2 rotate-45 border border-accent/80 bg-accent/20" />
-            <span className="h-px w-16 bg-gradient-to-l from-transparent to-accent/70" />
-          </div>
+          <Reveal className="section-wave mt-5" variant="scale" delay={250}>
+            <svg width="132" height="14" viewBox="0 0 132 14" fill="none" aria-hidden="true">
+              <path
+                d="M2 7 C14 -1 24 15 36 7 C48 -1 58 15 70 7 C82 -1 92 15 104 7 C116 -1 124 13 130 7"
+                stroke="var(--accent)"
+                strokeWidth="3"
+                strokeLinecap="round"
+              />
+            </svg>
+          </Reveal>
         </header>
 
         {children}

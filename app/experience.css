@@ -1,0 +1,1894 @@
+/* ==========================================================================
+   Experience layer: everything authored for the sand-and-sea rebrand.
+   Colour and easing come from the tokens in globals.css so both themes work.
+   Animations use transform and opacity (plus clip-path / filter where smooth).
+   ========================================================================== */
+
+:root {
+  --tilt-glow: oklch(1 0.04 85 / 0.55);
+  --bubble-hi: oklch(1 0 0 / 0.7);
+  --bubble-fill: color-mix(in oklab, oklch(0.8 0.09 200) 38%, var(--card));
+}
+
+.dark {
+  --tilt-glow: oklch(0.85 0.1 195 / 0.16);
+  --bubble-hi: color-mix(in oklab, var(--foreground) 16%, transparent);
+  --bubble-fill: color-mix(in oklab, var(--accent) 13%, var(--card));
+}
+
+/* ---- Browser surfaces: the parts nobody draws, themed from the palette ---- */
+
+::selection {
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
+  color: var(--foreground);
+}
+
+html,
+body {
+  overflow-x: clip;
+}
+
+html {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--accent) 55%, var(--background)) var(--background);
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: color-mix(in oklab, var(--accent) 45%, var(--background));
+  border: 2px solid var(--background);
+  border-radius: 9999px;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+input,
+textarea {
+  caret-color: var(--accent);
+}
+
+/* Sand in light mode, film grain in dark: a fixed noise texture over everything. */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  pointer-events: none;
+  opacity: var(--grain-opacity);
+  background: var(--foreground);
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .9 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  -webkit-mask-size: 180px 180px;
+  mask-size: 180px 180px;
+}
+
+/* ---- Scroll reveal: parts of a section enter one after another, once ---- */
+
+.reveal {
+  opacity: 0;
+  transition:
+    opacity 0.9s var(--ease-out) var(--d, 0ms),
+    transform 1s var(--ease-out) var(--d, 0ms),
+    filter 0.9s var(--ease-out) var(--d, 0ms),
+    clip-path 1.1s var(--ease-out) var(--d, 0ms);
+}
+
+.reveal[data-reveal="up"] {
+  transform: translate3d(0, 28px, 0);
+  filter: blur(6px);
+}
+
+.reveal[data-reveal="left"] {
+  transform: translate3d(-40px, 0, 0);
+  filter: blur(6px);
+}
+
+.reveal[data-reveal="right"] {
+  transform: translate3d(40px, 0, 0);
+  filter: blur(6px);
+}
+
+.reveal[data-reveal="scale"] {
+  transform: scale(0.94);
+  filter: blur(6px);
+}
+
+.reveal[data-reveal="mask"] {
+  transform: translate3d(0, 14px, 0);
+  clip-path: inset(0 0 100% 0);
+}
+
+.reveal[data-in="true"] {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+.reveal[data-reveal="mask"][data-in="true"] {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---- Entrance curtain ---- */
+
+.preloader {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: var(--background);
+  transition:
+    transform 0.95s var(--ease-in-out),
+    border-radius 0.95s var(--ease-in-out);
+}
+
+html.preload .preloader {
+  display: flex;
+}
+
+.preloader[data-phase="leave"] {
+  transform: translate3d(0, -105%, 0);
+  border-radius: 0 0 50% 50% / 0 0 14vw 14vw;
+}
+
+.preloader-mark {
+  position: relative;
+  font-size: clamp(7rem, 22vw, 15rem);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.preloader-ghost {
+  color: color-mix(in oklab, var(--foreground) 14%, transparent);
+}
+
+.preloader-fill {
+  position: absolute;
+  inset: 0;
+  color: var(--accent);
+  clip-path: inset(100% 0 0 0);
+  transition: clip-path 1.15s var(--ease-in-out);
+}
+
+.preloader[data-phase="fill"] .preloader-fill,
+.preloader[data-phase="leave"] .preloader-fill {
+  clip-path: inset(0 0 0 0);
+}
+
+/* ---- Click ripples ---- */
+
+.ripple-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.ripple-ring {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  border: 2px solid var(--accent);
+  border-radius: 9999px;
+  opacity: 0;
+  animation: ripple-out 0.9s var(--ease-out) both;
+}
+
+@keyframes ripple-out {
+  0% {
+    opacity: 0.7;
+    transform: scale(0.4);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(9);
+  }
+}
+
+/* ---- Hero scene ---- */
+
+.hero {
+  --px: 0px;
+  --py: 0px;
+  --horizon: 62%;
+  --orb-x: 86%;
+  --crest: clamp(3rem, 8vw, 6.5rem);
+}
+
+@media (max-width: 640px) {
+  .hero {
+    --orb-x: 50%;
+  }
+}
+
+.hero-scene {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+}
+
+.hero-sky {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to bottom,
+    var(--sky-top) 0%,
+    var(--sky-mid) calc(var(--horizon) * 0.7),
+    var(--sky-bottom) var(--horizon)
+  );
+}
+
+.hero-stars {
+  position: absolute;
+  inset: 0;
+  opacity: var(--stars);
+  transition: opacity 0.8s ease;
+}
+
+.hero-star {
+  position: absolute;
+  border-radius: 9999px;
+  background: oklch(0.97 0.02 220);
+  animation: twinkle 4s ease-in-out infinite;
+}
+
+@keyframes twinkle {
+  0%,
+  100% {
+    opacity: 0.2;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+.hero-layer {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  transform: translate3d(calc(var(--px) * var(--depth, 0)), calc(var(--py) * var(--depth, 0)), 0);
+  will-change: transform;
+}
+
+.hero-orb {
+  position: absolute;
+  left: var(--orb-x);
+  top: 6%;
+  width: clamp(5rem, 13vw, 11rem);
+  aspect-ratio: 1;
+  border-radius: 9999px;
+  translate: -50% 0;
+  background: radial-gradient(circle at 38% 36%, var(--orb) 0 62%, color-mix(in oklab, var(--orb) 82%, transparent) 100%);
+  box-shadow:
+    0 0 5rem 1.5rem var(--orb-glow),
+    0 0 14rem 6rem color-mix(in oklab, var(--orb-glow) 45%, transparent);
+  animation:
+    orb-rise 2.6s var(--ease-out) both,
+    orb-breathe 9s ease-in-out 2.6s infinite alternate;
+}
+
+.dark .hero-orb {
+  background:
+    radial-gradient(circle at 62% 62%, oklch(0.8 0.02 225 / 0.55) 0 10%, transparent 11%),
+    radial-gradient(circle at 34% 40%, oklch(0.8 0.02 225 / 0.45) 0 14%, transparent 15%),
+    radial-gradient(circle at 70% 30%, oklch(0.8 0.02 225 / 0.4) 0 7%, transparent 8%),
+    radial-gradient(circle at 38% 36%, var(--orb) 0 62%, color-mix(in oklab, var(--orb) 82%, transparent) 100%);
+}
+
+@keyframes orb-rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 5rem, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes orb-breathe {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+
+html.preload .hero-orb {
+  animation: none;
+  opacity: 0;
+}
+
+@media (max-width: 640px) {
+  .hero-orb {
+    top: 4%;
+    width: 4.5rem;
+  }
+}
+
+.hero-sea {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: var(--horizon);
+  bottom: 0;
+  background: linear-gradient(to bottom, var(--sea-top), var(--sea-bottom));
+}
+
+.hero-glints {
+  position: absolute;
+  left: var(--orb-x);
+  top: var(--horizon);
+  width: 13rem;
+  height: 26%;
+  translate: -50% 0;
+}
+
+.hero-glint {
+  position: absolute;
+  left: 50%;
+  height: 3px;
+  border-radius: 9999px;
+  background: var(--orb);
+  translate: -50% 0;
+  animation: glint 3.4s ease-in-out infinite;
+}
+
+@keyframes glint {
+  0%,
+  100% {
+    opacity: 0.1;
+    transform: scaleX(0.5);
+  }
+  50% {
+    opacity: 0.85;
+    transform: scaleX(1);
+  }
+}
+
+.hero-wavegroup {
+  position: absolute;
+  left: -4%;
+  right: -4%;
+  bottom: 0;
+  overflow: hidden;
+}
+
+.hero-wavegroup-1 {
+  top: calc(var(--horizon) - 1.5%);
+  color: var(--wave-1);
+}
+
+.hero-wavegroup-2 {
+  top: calc(var(--horizon) + 7%);
+  color: var(--wave-2);
+}
+
+.hero-wavegroup-3 {
+  top: calc(var(--horizon) + 15%);
+  color: var(--wave-3);
+}
+
+.hero-wave-crest {
+  display: block;
+  width: 200%;
+  height: var(--crest);
+  fill: currentColor;
+  animation: wave-drift 26s linear infinite;
+}
+
+.hero-wavegroup-2 .hero-wave-crest {
+  animation-duration: 18s;
+  animation-direction: reverse;
+}
+
+.hero-wavegroup-3 .hero-wave-crest {
+  animation-duration: 12s;
+}
+
+.hero-wave-fill {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: calc(var(--crest) - 2px);
+  bottom: 0;
+  background: currentColor;
+}
+
+.hero-dune {
+  position: absolute;
+  left: -3%;
+  bottom: -1px;
+  width: 106%;
+  height: clamp(5rem, 15vw, 11rem);
+}
+
+.hero-dune-back {
+  fill: var(--dune-2);
+}
+
+.hero-dune-front {
+  fill: var(--background);
+}
+
+.hero-in {
+  opacity: 0;
+  animation: hero-in 1.1s var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 110ms + 250ms);
+}
+
+html.preload .hero-in {
+  animation: none;
+}
+
+@keyframes hero-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 22px, 0);
+    filter: blur(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+
+.hero-cue {
+  bottom: 2rem;
+}
+
+.hero-cue-arrow {
+  animation: cue-bob 1.8s ease-in-out infinite;
+}
+
+@keyframes cue-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+/* ---- Depth cable ---- */
+
+.depth-cable {
+  position: fixed;
+  left: 1.25rem;
+  top: 50%;
+  z-index: 45;
+  display: none;
+  height: min(56vh, 30rem);
+  transform: translateY(-50%);
+}
+
+@media (min-width: 1280px) {
+  .depth-cable {
+    display: block;
+  }
+}
+
+.depth-track {
+  position: relative;
+  width: 2rem;
+  height: 100%;
+}
+
+.depth-line,
+.depth-fill {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  margin-left: -1px;
+  border-radius: 2px;
+}
+
+.depth-line {
+  background: color-mix(in oklab, var(--foreground) 16%, transparent);
+}
+
+.depth-fill {
+  background: linear-gradient(to bottom, var(--accent), var(--lagoon));
+  box-shadow: 0 0 10px color-mix(in oklab, var(--accent) 60%, transparent);
+  transform-origin: top;
+  transform: scaleY(0);
+}
+
+.depth-node {
+  position: absolute;
+  left: 0;
+  top: var(--at);
+  display: flex;
+  align-items: center;
+  width: 2rem;
+  height: 1.5rem;
+  margin-top: -0.75rem;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+
+.depth-node-dot {
+  position: relative;
+  width: 10px;
+  height: 10px;
+  margin-left: calc(1rem - 5px);
+  background: var(--background);
+  border: 2px solid color-mix(in oklab, var(--foreground) 32%, transparent);
+  border-radius: 9999px;
+  transition:
+    background 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+
+.depth-node.is-passed .depth-node-dot {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.depth-node.is-active .depth-node-dot {
+  transform: scale(1.4);
+}
+
+.depth-node-label {
+  position: absolute;
+  left: 2.4rem;
+  padding: 0.2rem 0.65rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--card) 94%, transparent);
+  border-radius: 9999px;
+  opacity: 0;
+  transform: translate3d(-6px, 0, 0);
+  pointer-events: none;
+  transition:
+    opacity 0.25s var(--ease-out),
+    transform 0.25s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .depth-node:hover .depth-node-label {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.depth-node:focus-visible .depth-node-label {
+  opacity: 1;
+  transform: none;
+}
+
+.depth-packet {
+  position: absolute;
+  left: 50%;
+  top: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.depth-packet-core {
+  position: absolute;
+  left: -7px;
+  top: -7px;
+  width: 14px;
+  height: 14px;
+  background: var(--accent);
+  border-radius: 9999px;
+  box-shadow:
+    0 0 0 4px color-mix(in oklab, var(--accent) 25%, transparent),
+    0 0 18px 4px color-mix(in oklab, var(--accent) 70%, transparent);
+  animation: packet-pulse 2s ease-in-out infinite;
+}
+
+@keyframes packet-pulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.22);
+  }
+}
+
+.depth-readout {
+  position: absolute;
+  left: 1.4rem;
+  top: -0.8rem;
+  padding: 0.15rem 0.55rem;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--accent-foreground);
+  background: var(--accent);
+  border-radius: 9999px;
+}
+
+.depth-zone {
+  position: absolute;
+  left: 0;
+  top: calc(100% + 0.9rem);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 0.15rem 0.6rem;
+  white-space: nowrap;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--background) 82%, transparent);
+  border-radius: 9999px;
+}
+
+/* ---- Wave divider between sections ---- */
+
+.wave-divider-layer {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 200%;
+  height: 100%;
+}
+
+.wave-divider-back {
+  fill: var(--wave-1);
+  opacity: 0.7;
+  animation: wave-drift 32s linear infinite reverse;
+}
+
+.wave-divider-front {
+  fill: var(--wave-2);
+  opacity: 0.5;
+  animation: wave-drift 22s linear infinite;
+}
+
+/* ---- Text that is read into focus ---- */
+
+.scroll-text {
+  font-size: clamp(1.3rem, 2.3vw, 2.1rem);
+  font-weight: 500;
+  line-height: 1.45;
+  letter-spacing: -0.01em;
+  text-wrap: pretty;
+}
+
+.scroll-word {
+  opacity: clamp(0.16, calc(0.16 + (var(--p, 0) * var(--n) * 1.15 - var(--i)) * 0.84), 1);
+}
+
+/* Letters travel with their word, so a heading only ever wraps between words. */
+.wave-word {
+  display: inline-block;
+  white-space: nowrap;
+}
+
+/* ---- Tilt surfaces and magnetic controls ---- */
+
+.tilt {
+  position: relative;
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
+}
+
+.tilt::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(380px circle at var(--gx, 50%) var(--gy, 0%), var(--tilt-glow), transparent 62%);
+  transition: opacity 0.35s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tilt:hover::after {
+    opacity: 1;
+  }
+}
+
+.magnetic {
+  display: inline-block;
+  transition: transform 0.35s var(--ease-out);
+}
+
+/* ---- Footer: the seabed ---- */
+
+.site-footer-waves {
+  position: absolute;
+  inset: 0;
+}
+
+.site-footer-wave {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 200%;
+}
+
+.site-footer-wave-1 {
+  height: 34%;
+  fill: var(--wave-1);
+  animation: wave-drift 26s linear infinite;
+}
+
+.site-footer-wave-2 {
+  height: 24%;
+  fill: var(--wave-3);
+  animation: wave-drift 17s linear infinite reverse;
+}
+
+.surface-buoy {
+  display: grid;
+  place-items: center;
+  width: 3.25rem;
+  height: 3.25rem;
+  color: var(--accent-foreground);
+  background: var(--accent);
+  border-radius: 9999px;
+  box-shadow: 0 12px 30px -10px color-mix(in oklab, var(--accent) 70%, transparent);
+  animation: buoy-bob 3.4s ease-in-out infinite;
+  transition: transform 0.25s var(--ease-out);
+}
+
+.surface-buoy:active {
+  transform: scale(0.94);
+}
+
+@keyframes buoy-bob {
+  0%,
+  100% {
+    translate: 0 0;
+  }
+  50% {
+    translate: 0 -8px;
+  }
+}
+
+/* ---- Sections ---- */
+
+.section-soft {
+  background: color-mix(in oklab, var(--card) 42%, transparent);
+}
+
+.section-wave path {
+  stroke-dasharray: 160;
+  stroke-dashoffset: 160;
+  transition: stroke-dashoffset 1.4s var(--ease-out) var(--d, 0ms);
+}
+
+.section-wave[data-in="true"] path {
+  stroke-dashoffset: 0;
+}
+
+/* ---- Network lab ---- */
+
+.lab-board {
+  position: relative;
+  padding: 0.75rem;
+  background: color-mix(in oklab, var(--card) 70%, transparent);
+  border-radius: 1.75rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 9%, transparent);
+}
+
+.lab-link {
+  stroke: color-mix(in oklab, var(--foreground) 22%, transparent);
+  stroke-width: 4;
+  stroke-linecap: round;
+}
+
+.lab-link-flow {
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 3 14;
+  stroke-linecap: round;
+  opacity: 0.7;
+  animation: lab-flow 2.2s linear infinite;
+}
+
+@keyframes lab-flow {
+  to {
+    stroke-dashoffset: -34;
+  }
+}
+
+.lab-node {
+  cursor: pointer;
+  outline: none;
+}
+
+.lab-node[data-source="true"] {
+  cursor: default;
+}
+
+.lab-icon {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.35s var(--ease-out);
+}
+
+.lab-icon * {
+  fill: var(--card);
+  stroke: var(--accent);
+  stroke-width: 2.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.lab-icon .lab-solid {
+  fill: var(--accent);
+  stroke: none;
+}
+
+.lab-icon .lab-glint {
+  fill: none;
+  stroke: color-mix(in oklab, var(--accent) 55%, transparent);
+  stroke-width: 2;
+}
+
+.lab-halo {
+  fill: color-mix(in oklab, var(--accent) 18%, transparent);
+  stroke: var(--accent);
+  stroke-width: 2;
+  stroke-dasharray: 5 7;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: center;
+  transform: scale(0.85);
+  transition:
+    opacity 0.3s var(--ease-out),
+    transform 0.45s var(--ease-out),
+    fill 0.3s var(--ease-out);
+}
+
+.lab-node[data-source="true"] .lab-halo {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.lab-node[data-hit="true"] .lab-halo {
+  opacity: 1;
+  transform: scale(1.12);
+  fill: color-mix(in oklab, var(--accent) 38%, transparent);
+}
+
+.lab-node:focus-visible .lab-halo {
+  opacity: 1;
+  transform: scale(1);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .lab-node:hover .lab-icon {
+    transform: scale(1.1);
+  }
+
+  .lab-node:not([data-source="true"]):hover .lab-halo {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+
+  .lab-node[data-busy="true"] {
+    cursor: progress;
+  }
+}
+
+.lab-name {
+  font-size: 15px;
+  font-weight: 700;
+  fill: var(--foreground);
+}
+
+.lab-ip {
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  fill: color-mix(in oklab, var(--foreground) 70%, transparent);
+}
+
+.lab-tag {
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.lab-tag-a {
+  fill: var(--accent);
+}
+
+.lab-tag-b {
+  fill: var(--coral);
+}
+
+@media (max-width: 640px) {
+  .lab-name {
+    font-size: 29px;
+  }
+
+  .lab-ip {
+    font-size: 22px;
+  }
+
+  .lab-tag {
+    font-size: 24px;
+  }
+}
+
+.lab-packet {
+  opacity: 0;
+  pointer-events: none;
+  --packet: var(--accent);
+}
+
+.lab-packet[data-kind="reply"] {
+  --packet: var(--lagoon);
+}
+
+.lab-packet[data-kind="drop"] {
+  --packet: var(--coral);
+}
+
+.lab-packet-halo {
+  fill: color-mix(in oklab, var(--packet) 30%, transparent);
+}
+
+.lab-packet-core {
+  fill: var(--packet);
+}
+
+.lab-block {
+  opacity: 0;
+  transform: scale(0.6);
+  transform-box: fill-box;
+  transform-origin: center;
+  transition:
+    opacity 0.3s var(--ease-out),
+    transform 0.4s var(--ease-out);
+}
+
+.lab-block[data-show="true"] {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.lab-block circle {
+  fill: var(--coral);
+}
+
+.lab-block path {
+  fill: none;
+  stroke: var(--background);
+  stroke-width: 3;
+  stroke-linecap: round;
+}
+
+.lab-block text {
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  fill: var(--coral);
+}
+
+.lab-chip {
+  padding: 0.4rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--foreground) 8%, transparent);
+  border-radius: 9999px;
+  transition:
+    background 0.25s var(--ease-out),
+    color 0.25s var(--ease-out),
+    transform 0.2s var(--ease-out);
+}
+
+.lab-chip.is-on {
+  color: var(--accent-foreground);
+  background: var(--accent);
+}
+
+.lab-chip:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.lab-chip:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.lab-console-wrap {
+  overflow: hidden;
+  color: oklch(0.93 0.02 210);
+  background: oklch(0.17 0.03 245);
+  border-radius: 1.25rem;
+}
+
+.lab-console {
+  height: 15.5rem;
+  margin: 0;
+  padding: 1rem 1.1rem;
+  overflow-y: auto;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.6;
+  scrollbar-width: thin;
+}
+
+.lab-console code {
+  font-family: inherit;
+}
+
+.lab-line {
+  display: block;
+  margin: 0;
+  overflow-wrap: anywhere;
+  white-space: pre-wrap;
+  animation: lab-line-in 0.25s var(--ease-out) both;
+}
+
+@keyframes lab-line-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 4px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.lab-line-cmd {
+  color: oklch(0.82 0.1 195);
+}
+
+.lab-line-ok {
+  color: oklch(0.85 0.14 160);
+}
+
+.lab-line-warn {
+  color: oklch(0.8 0.15 35);
+}
+
+.lab-line-note {
+  font-style: italic;
+  color: oklch(0.82 0.1 85);
+}
+
+.lab-line-idle {
+  color: oklch(0.72 0.03 220);
+}
+
+.lab-caret {
+  display: inline-block;
+  width: 0.55em;
+  height: 1em;
+  margin-left: 0.25em;
+  vertical-align: -0.15em;
+  background: var(--lagoon);
+  animation: caret 1s steps(1) infinite;
+}
+
+@keyframes caret {
+  50% {
+    opacity: 0;
+  }
+}
+
+.lab-console-bar {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.6rem 1.1rem;
+  font-size: 0.8125rem;
+  color: oklch(0.76 0.03 215);
+  background: oklch(0.13 0.025 245);
+}
+
+.lab-status[data-running="true"] {
+  color: var(--lagoon);
+}
+
+.lab-clear {
+  font-weight: 600;
+  color: oklch(0.86 0.1 195);
+}
+
+.lab-clear:disabled {
+  opacity: 0.4;
+}
+
+/* ---- Operational impact: a signal meter that fills as the line appears ---- */
+
+.impact-signal {
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+  gap: 5px;
+  height: 3.25rem;
+}
+
+.impact-signal i {
+  width: 8px;
+  background: color-mix(in oklab, var(--foreground) 18%, transparent);
+  border-radius: 3px;
+  transform: scaleY(0.25);
+  transform-origin: bottom;
+}
+
+.impact-signal i:nth-child(1) {
+  --b: 0;
+  height: 36%;
+}
+
+.impact-signal i:nth-child(2) {
+  --b: 1;
+  height: 58%;
+}
+
+.impact-signal i:nth-child(3) {
+  --b: 2;
+  height: 80%;
+}
+
+.impact-signal i:nth-child(4) {
+  --b: 3;
+  height: 100%;
+}
+
+.reveal[data-in="true"] .impact-signal i {
+  background: var(--accent);
+  transform: scaleY(1);
+  transition:
+    transform 0.8s var(--ease-out) calc(var(--b) * 110ms + var(--d, 0ms) + 250ms),
+    background 0.6s ease calc(var(--b) * 110ms + var(--d, 0ms) + 250ms);
+}
+
+/* ---- Core skills: bubbles that float and slip away from the cursor ---- */
+
+.bubble-field {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem 1.25rem;
+  padding: 1rem 0;
+}
+
+.bubble-wrap {
+  --base: clamp(8.75rem, 40vw, 11rem);
+  width: calc(var(--k, 1) * var(--base));
+  aspect-ratio: 1;
+}
+
+@media (min-width: 768px) {
+  .bubble-field {
+    gap: 1.5rem 2.5rem;
+  }
+
+  .bubble-wrap {
+    --base: clamp(10rem, 15vw, 12.5rem);
+  }
+
+  .bubble-wrap:nth-child(even) {
+    margin-top: 2.75rem;
+  }
+}
+
+.bubble-float {
+  width: 100%;
+  height: 100%;
+  animation: bubble-float var(--float-dur, 8s) ease-in-out var(--float-delay, 0s) infinite alternate;
+}
+
+@keyframes bubble-float {
+  from {
+    transform: translate3d(0, -7px, 0);
+  }
+  to {
+    transform: translate3d(0, 8px, 0);
+  }
+}
+
+.bubble {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 1.1rem;
+  text-align: center;
+  background:
+    radial-gradient(circle at 30% 24%, var(--bubble-hi) 0, transparent 46%),
+    var(--bubble-fill);
+  border-radius: 9999px;
+  box-shadow:
+    inset 0 0 0 1px color-mix(in oklab, var(--accent) 38%, transparent),
+    inset 0 -14px 30px -14px color-mix(in oklab, var(--accent) 35%, transparent),
+    0 18px 40px -22px color-mix(in oklab, var(--accent) 60%, transparent);
+  transition:
+    scale 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bubble:hover {
+    scale: 1.07;
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--accent) 70%, transparent),
+      inset 0 -14px 30px -14px color-mix(in oklab, var(--accent) 55%, transparent),
+      0 22px 50px -20px color-mix(in oklab, var(--accent) 80%, transparent);
+  }
+}
+
+.bubble-label {
+  font-size: clamp(0.9375rem, 1.5vw, 1.125rem);
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+/* ---- Technical skills ---- */
+
+.skill-chip {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--accent) 11%, transparent);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--accent) 26%, transparent);
+  transition:
+    translate 0.25s var(--ease-out),
+    background 0.25s var(--ease-out),
+    box-shadow 0.25s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .skill-chip:hover {
+    translate: 0 -3px;
+    background: color-mix(in oklab, var(--accent) 24%, transparent);
+    box-shadow:
+      inset 0 0 0 1px color-mix(in oklab, var(--accent) 60%, transparent),
+      0 10px 24px -12px color-mix(in oklab, var(--accent) 70%, transparent);
+  }
+}
+
+/* ---- Monitoring workflow: a signal runs the pipeline, each stage lights as it passes ---- */
+
+.flow-steps {
+  position: relative;
+}
+
+.flow-list {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  gap: 2.25rem;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.flow-line {
+  position: absolute;
+  z-index: 0;
+  top: 1.75rem;
+  bottom: 1.75rem;
+  left: 1.75rem;
+  width: 3px;
+  margin-left: -1.5px;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-radius: 9999px;
+}
+
+.flow-packet {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 65%, var(--accent) 100%);
+  animation: flow-run-y 8s linear infinite;
+}
+
+.flow-step {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 1.1rem;
+}
+
+.flow-node {
+  position: relative;
+  display: grid;
+  flex-shrink: 0;
+  place-items: center;
+  width: 3.5rem;
+  height: 3.5rem;
+  color: var(--accent);
+  background: var(--background);
+  border-radius: 9999px;
+  box-shadow: inset 0 0 0 2px color-mix(in oklab, var(--accent) 45%, transparent);
+}
+
+.flow-node::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  background: color-mix(in oklab, var(--accent) 35%, transparent);
+  border-radius: 9999px;
+  opacity: 0;
+  transform: scale(0.7);
+  animation: node-lit 8s ease-out infinite;
+  animation-delay: calc(var(--n) * 2.13s);
+}
+
+.flow-text {
+  max-width: 24ch;
+  padding-top: 0.9rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  color: var(--foreground);
+  text-wrap: balance;
+}
+
+@media (min-width: 768px) {
+  .flow-list {
+    grid-template-columns: repeat(var(--steps), minmax(0, 1fr));
+    gap: 1.5rem;
+  }
+
+  .flow-line {
+    top: 2.25rem;
+    right: calc(100% / var(--steps) / 2);
+    bottom: auto;
+    left: calc(100% / var(--steps) / 2);
+    width: auto;
+    height: 3px;
+    margin-left: 0;
+  }
+
+  .flow-packet {
+    background: linear-gradient(to right, transparent 65%, var(--accent) 100%);
+    animation-name: flow-run-x;
+  }
+
+  .flow-step {
+    flex-direction: column;
+    align-items: center;
+    gap: 1.25rem;
+    text-align: center;
+  }
+
+  .flow-node {
+    width: 4.5rem;
+    height: 4.5rem;
+  }
+
+  .flow-text {
+    padding-top: 0;
+  }
+}
+
+.flow[data-in="false"] .flow-packet,
+.flow[data-in="false"] .flow-node::after {
+  animation-play-state: paused;
+}
+
+@keyframes flow-run-x {
+  0% {
+    transform: translateX(-100%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  92%,
+  100% {
+    transform: translateX(0);
+    opacity: 0;
+  }
+}
+
+@keyframes flow-run-y {
+  0% {
+    transform: translateY(-100%);
+    opacity: 1;
+  }
+  80% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  92%,
+  100% {
+    transform: translateY(0);
+    opacity: 0;
+  }
+}
+
+@keyframes node-lit {
+  0% {
+    opacity: 0;
+    transform: scale(0.7);
+  }
+  6% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  22% {
+    opacity: 0;
+    transform: scale(1.3);
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* ---- Experience timeline ---- */
+
+.timeline {
+  position: relative;
+  --p: 0;
+}
+
+.timeline-rail {
+  position: absolute;
+  top: 0.5rem;
+  bottom: 0.5rem;
+  left: 0.6rem;
+  width: 2px;
+  background: color-mix(in oklab, var(--foreground) 14%, transparent);
+  border-radius: 2px;
+}
+
+.timeline-fill {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, var(--accent), var(--lagoon));
+  border-radius: 2px;
+  box-shadow: 0 0 12px color-mix(in oklab, var(--accent) 60%, transparent);
+  transform: scaleY(var(--p, 0));
+  transform-origin: top;
+}
+
+.timeline-item {
+  position: relative;
+  padding-left: 2.6rem;
+}
+
+.timeline-card-wrap {
+  width: 100%;
+}
+
+.timeline-dot {
+  position: absolute;
+  top: 1.9rem;
+  left: 0.6rem;
+  z-index: 1;
+  width: 18px;
+  height: 18px;
+  margin-left: -8px;
+  background: var(--background);
+  border: 3px solid color-mix(in oklab, var(--foreground) 24%, transparent);
+  border-radius: 9999px;
+}
+
+.timeline-dot-lit {
+  position: absolute;
+  inset: -3px;
+  background: var(--accent);
+  border-radius: 9999px;
+  box-shadow: 0 0 14px color-mix(in oklab, var(--accent) 70%, transparent);
+  opacity: clamp(0, calc((var(--p, 0) * var(--n) - var(--i) - 0.3) * 4), 1);
+}
+
+.timeline-card {
+  padding: 1.5rem;
+  background: color-mix(in oklab, var(--card) 82%, transparent);
+  border-radius: 1.5rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 9%, transparent);
+}
+
+@media (min-width: 768px) {
+  .timeline-rail {
+    left: 50%;
+    margin-left: -1px;
+  }
+
+  .timeline-item {
+    display: flex;
+    padding-left: 0;
+  }
+
+  .timeline-item.is-right {
+    justify-content: flex-end;
+  }
+
+  .timeline-card-wrap {
+    width: calc(50% - 2.75rem);
+  }
+
+  .timeline-dot {
+    left: 50%;
+    margin-left: -9px;
+  }
+
+  .timeline-card {
+    padding: 1.9rem;
+  }
+}
+
+/* ---- Projects ---- */
+
+.project-card {
+  overflow: hidden;
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  border-radius: 1.75rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 9%, transparent);
+}
+
+.project-art {
+  position: relative;
+  display: grid;
+  place-items: center;
+  height: 9.5rem;
+  overflow: hidden;
+  background: linear-gradient(
+    135deg,
+    color-mix(in oklab, var(--accent) 24%, var(--card)),
+    color-mix(in oklab, var(--lagoon) 14%, var(--card))
+  );
+}
+
+.art-link {
+  stroke: color-mix(in oklab, var(--accent) 55%, transparent);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  animation: art-pulse 2.6s ease-in-out infinite;
+}
+
+.art-node {
+  fill: var(--card);
+  stroke: var(--accent);
+  stroke-width: 3;
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: art-node 2.6s ease-in-out infinite;
+}
+
+@keyframes art-pulse {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+@keyframes art-node {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.3);
+  }
+}
+
+.art-orbit {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 6rem;
+  height: 6rem;
+}
+
+.art-orbiter {
+  position: absolute;
+  inset: -0.9rem;
+  transform: rotate(var(--a));
+  animation: orbit 6s linear infinite;
+}
+
+.art-orbiter::after {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 8px;
+  height: 8px;
+  margin-left: -4px;
+  background: var(--coral);
+  border-radius: 9999px;
+}
+
+@keyframes orbit {
+  from {
+    rotate: 0deg;
+  }
+  to {
+    rotate: 360deg;
+  }
+}
+
+.art-lab {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+}
+
+.art-lab svg {
+  animation: art-breathe 3.4s ease-in-out infinite;
+}
+
+@keyframes art-breathe {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.12);
+  }
+}
+
+.art-drift {
+  position: absolute;
+  bottom: -6px;
+  width: 7px;
+  height: 7px;
+  background: var(--coral);
+  border-radius: 9999px;
+  opacity: 0;
+  animation: art-rise 3.2s ease-out infinite;
+}
+
+@keyframes art-rise {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 0, 0);
+  }
+  20% {
+    opacity: 0.9;
+  }
+  100% {
+    opacity: 0;
+    transform: translate3d(0, -7rem, 0);
+  }
+}
+
+.tech-chip {
+  padding: 0.25rem 0.7rem;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  background: color-mix(in oklab, var(--accent) 13%, transparent);
+  border-radius: 9999px;
+}
+
+.project-link {
+  transition: translate 0.25s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .project-link:hover {
+    text-decoration: underline;
+    translate: 3px 0;
+  }
+}
+
+/* ---- Certifications ---- */
+
+.cert-card {
+  position: relative;
+  padding: 1.5rem;
+  background: color-mix(in oklab, var(--card) 80%, transparent);
+  border-radius: 1.5rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 9%, transparent);
+}
+
+.cert-watermark {
+  position: absolute;
+  right: -1.25rem;
+  bottom: -1.25rem;
+  width: 12rem;
+  height: 12rem;
+  color: var(--accent);
+  opacity: 0.09;
+  pointer-events: none;
+}
+
+.cert-featured {
+  display: flex;
+  overflow: hidden;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 16rem;
+  padding: 1.5rem;
+  background: linear-gradient(
+    150deg,
+    color-mix(in oklab, var(--accent) 22%, var(--card)),
+    color-mix(in oklab, var(--card) 80%, transparent) 70%
+  );
+}
+
+.cert-hit {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  display: grid;
+  place-items: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  color: var(--accent);
+  background: color-mix(in oklab, var(--accent) 12%, transparent);
+  border-radius: 9999px;
+  transition:
+    background 0.25s var(--ease-out),
+    color 0.25s var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cert-hit:hover {
+    color: var(--accent-foreground);
+    background: var(--accent);
+  }
+}
+
+/* ---- Languages ---- */
+
+.lang-meter {
+  height: 1.1rem;
+  margin-top: 1rem;
+  overflow: hidden;
+  background: color-mix(in oklab, var(--foreground) 10%, transparent);
+  border-radius: 9999px;
+}
+
+.lang-fill {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: linear-gradient(90deg, var(--accent), var(--lagoon));
+  border-radius: 9999px;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 1.6s var(--ease-out) calc(var(--d, 0ms) + 300ms);
+}
+
+.reveal[data-in="true"] .lang-fill {
+  transform: scaleX(var(--lvl));
+}
+
+.lang-fill::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, oklch(1 0 0 / 0.5), transparent);
+  transform: translateX(-100%);
+  animation: shimmer 3.4s ease-in-out 2s infinite;
+}
+
+@keyframes shimmer {
+  to {
+    transform: translateX(100%);
+  }
+}
+
+/* ---- Contact ---- */
+
+.contact-panel {
+  padding: 1.75rem;
+  background: color-mix(in oklab, var(--card) 78%, transparent);
+  border-radius: 1.75rem;
+  box-shadow: inset 0 0 0 1px color-mix(in oklab, var(--foreground) 9%, transparent);
+}
+
+@media (min-width: 768px) {
+  .contact-panel {
+    padding: 2.25rem;
+  }
+}
+
+/* ---- Reduced motion: keep content and meaning, drop the travel ---- */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal[data-reveal] {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    clip-path: none;
+    transition: none;
+  }
+
+  .hero-in {
+    opacity: 1;
+    animation: none;
+  }
+
+  .hero-orb,
+  .hero-star,
+  .hero-glint,
+  .hero-wave-crest,
+  .hero-cue-arrow,
+  .wave-divider-layer,
+  .site-footer-wave,
+  .surface-buoy,
+  .depth-packet-core {
+    animation: none;
+  }
+
+  .hero-orb {
+    opacity: 1;
+  }
+
+  .preloader {
+    display: none !important;
+  }
+
+  .tilt,
+  .magnetic {
+    transition: none;
+  }
+
+  .lab-link-flow,
+  .lab-caret,
+  .lab-line,
+  .bubble-float,
+  .flow-packet,
+  .flow-node::after,
+  .art-link,
+  .art-node,
+  .art-orbiter,
+  .art-lab svg,
+  .art-drift,
+  .lang-fill::after {
+    animation: none;
+  }
+
+  .section-wave path {
+    stroke-dashoffset: 0;
+    transition: none;
+  }
+
+  .impact-signal i {
+    background: var(--accent);
+    transform: none;
+    transition: none;
+  }
+
+  .lang-fill {
+    transform: scaleX(var(--lvl));
+    transition: none;
+  }
+
+  .flow-node::after {
+    opacity: 0;
+  }
+}

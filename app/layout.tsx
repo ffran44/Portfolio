@@ -10,10 +10,14 @@ import { InteractiveBackground } from "@/components/interactive-background"
 import { CustomCursor } from "@/components/custom-cursor"
 import { AmbientAudioToggle } from "@/components/ambient-audio-toggle"
 import { AboutMe } from "@/components/about-me"
+import { Preloader } from "@/components/preloader"
+import { ClickRipple } from "@/components/click-ripple"
+import { DepthCable } from "@/components/depth-cable"
 import "./globals.css"
+import "./experience.css"
 
 const _montserrat = Montserrat({ subsets: ["latin"], variable: "--font-sans" })
-const _geistMono = Geist_Mono({ subsets: ["latin"] })
+const _geistMono = Geist_Mono({ subsets: ["latin"], variable: "--font-mono" })
 const _originalSurfer = Original_Surfer({ subsets: ["latin"], weight: "400", variable: "--font-serif" })
 
 const title = "Francisco Rissone | IT Technician | CCNA"
@@ -67,23 +71,29 @@ export default function RootLayout({
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <head>
-        {/* Set the theme class before first paint so there's no flash of the wrong theme. */}
+        {/* Runs before first paint: sets the theme, and arms the entrance curtain on a visitor's first load of the session. */}
         <script
           dangerouslySetInnerHTML={{
             __html:
-              "try{if(localStorage.getItem('theme')!=='light'){document.documentElement.classList.add('dark')}}catch(e){document.documentElement.classList.add('dark')}",
+              "try{var d=document.documentElement;if(localStorage.getItem('theme')!=='light'){d.classList.add('dark')}if(!sessionStorage.getItem('fr-seen')&&!navigator.webdriver&&!matchMedia('(prefers-reduced-motion: reduce)').matches){d.classList.add('preload');setTimeout(function(){d.classList.remove('preload')},4500)}}catch(e){document.documentElement.classList.add('dark')}",
           }}
         />
+        <noscript>
+          <style>{`.reveal,.hero-in{opacity:1!important;transform:none!important;filter:none!important;clip-path:none!important;animation:none!important}.wave-char{opacity:1!important;transform:none!important}`}</style>
+        </noscript>
       </head>
-      <body className={`font-sans antialiased ${_montserrat.variable} ${_originalSurfer.variable}`}>
+      <body className={`font-sans antialiased ${_montserrat.variable} ${_originalSurfer.variable} ${_geistMono.variable}`}>
         <ThemeProvider>
+          <Preloader />
           <InteractiveBackground />
           <CustomCursor />
+          <ClickRipple />
           <LanguageProvider>
             <LanguageToggle />
             <AmbientAudioToggle />
             <ThemeToggle />
             <AboutMe />
+            <DepthCable />
             <div className="relative z-10">{children}</div>
           </LanguageProvider>
           <Analytics />

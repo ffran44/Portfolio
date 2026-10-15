@@ -1,12 +1,15 @@
 "use client"
 
 import { useEffect, useRef, useState, type TouchEvent } from "react"
-import { ChevronLeft, ChevronRight, Clapperboard, Gamepad2, Music, PawPrint, Trophy, Users, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Clapperboard, Gamepad2, Music, PawPrint, Trophy, Users, X, type LucideIcon } from "lucide-react"
 import { useLanguage } from "@/lib/language-context"
 import { IconBadge } from "@/components/icon-badge"
 import { cn } from "@/lib/utils"
 
 const SLIDE_ICONS = [Users, PawPrint, Trophy, [Music, Gamepad2, Clapperboard]] as const
+
+// Array.isArray does not narrow readonly tuples, so narrow by hand.
+const isIconGroup = (value: LucideIcon | readonly LucideIcon[]): value is readonly LucideIcon[] => Array.isArray(value)
 
 export function AboutMe() {
   const { t, language } = useLanguage()
@@ -59,18 +62,18 @@ export function AboutMe() {
         onClick={openTab}
         aria-label={t.aboutMe.tabLabel}
         className={cn(
-          "fixed right-0 top-1/2 z-40 -translate-y-1/2 translate-x-1/2",
-          "h-24 w-24 rounded-full",
-          "bg-card/90 border border-accent/40 backdrop-blur-sm",
+          "fixed z-40 border border-accent/40 bg-card/90 text-accent backdrop-blur-sm",
           "shadow-[0_0_20px_-6px_oklch(0.74_0.13_200/0.5)]",
-          "flex items-center justify-center",
-          "transition-transform duration-300 hover:translate-x-[calc(50%-0.5rem)]",
+          // phones: a small pill in the corner, so it never sits on top of the text
+          "bottom-6 right-4 flex items-center justify-center rounded-full px-4 py-2.5",
+          // md and up: the half-circle tab on the edge
+          "md:bottom-auto md:right-0 md:top-1/2 md:h-24 md:w-24 md:-translate-y-1/2 md:translate-x-1/2 md:px-0 md:py-0",
+          "md:transition-transform md:duration-300 md:hover:translate-x-[calc(50%-0.5rem)]",
           "motion-reduce:transition-none motion-reduce:hover:translate-x-1/2",
         )}
       >
         <span
-          className="text-xs font-semibold tracking-wide text-accent -translate-x-6"
-          style={{ writingMode: "vertical-rl" }}
+          className="text-sm font-semibold tracking-wide text-accent md:-translate-x-6 md:[writing-mode:vertical-rl]"
         >
           {t.aboutMe.tabLabel}
         </span>
@@ -101,7 +104,7 @@ export function AboutMe() {
               onTouchStart={handleTouchStart}
               onTouchEnd={handleTouchEnd}
             >
-              {Array.isArray(icons) ? (
+              {isIconGroup(icons) ? (
                 <div className="flex gap-3">
                   {icons.map((Icon, i) => (
                     <IconBadge key={i} icon={Icon} size="md" />

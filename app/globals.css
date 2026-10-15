@@ -40,6 +40,35 @@
   --sidebar-ring: oklch(0.55 0.13 200);
   --coral: oklch(0.62 0.16 35);
   --lagoon: oklch(0.6 0.1 190);
+
+  /* Motion curves shared by every authored animation */
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+  --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
+
+  /* Scene: golden-hour shore */
+  --sky-top: oklch(0.83 0.09 60);
+  --sky-mid: oklch(0.9 0.065 76);
+  --sky-bottom: oklch(0.95 0.035 88);
+  --sea-top: oklch(0.77 0.09 205);
+  --sea-bottom: oklch(0.57 0.11 212);
+  --wave-1: oklch(0.7 0.1 205 / 0.55);
+  --wave-2: oklch(0.6 0.115 210 / 0.65);
+  --wave-3: oklch(0.47 0.12 215 / 0.85);
+  --dune: oklch(0.87 0.055 82);
+  --dune-2: oklch(0.8 0.06 76);
+  --foam: oklch(0.99 0.015 90 / 0.9);
+  --orb: oklch(0.9 0.15 78);
+  --orb-glow: oklch(0.88 0.14 68 / 0.55);
+  --blob-a: oklch(0.82 0.13 70 / 0.45);
+  --blob-b: oklch(0.74 0.1 205 / 0.35);
+  --blob-c: oklch(0.7 0.14 35 / 0.22);
+  --spot: oklch(1 0.04 85 / 0.45);
+  --bubble-bg: oklch(1 0 0 / 0.35);
+  --bubble-border: oklch(0.55 0.1 205 / 0.4);
+  --bubble-glow: oklch(0.55 0.13 200 / 0.3);
+  --grain-opacity: 0.05;
+  --stars: 0;
 }
 
 .dark {
@@ -77,6 +106,30 @@
   --sidebar-ring: oklch(0.74 0.13 200);
   --coral: oklch(0.72 0.16 35);
   --lagoon: oklch(0.8 0.1 190);
+
+  /* Scene: moonlit open sea */
+  --sky-top: oklch(0.1 0.04 255);
+  --sky-mid: oklch(0.17 0.06 240);
+  --sky-bottom: oklch(0.24 0.08 225);
+  --sea-top: oklch(0.26 0.08 225);
+  --sea-bottom: oklch(0.14 0.05 240);
+  --wave-1: oklch(0.38 0.1 215 / 0.45);
+  --wave-2: oklch(0.3 0.09 225 / 0.6);
+  --wave-3: oklch(0.2 0.06 235 / 0.88);
+  --dune: oklch(0.17 0.04 238);
+  --dune-2: oklch(0.13 0.035 240);
+  --foam: oklch(0.8 0.08 200 / 0.35);
+  --orb: oklch(0.93 0.03 215);
+  --orb-glow: oklch(0.8 0.08 215 / 0.35);
+  --blob-a: oklch(0.74 0.13 200 / 0.5);
+  --blob-b: oklch(0.8 0.1 190 / 0.4);
+  --blob-c: oklch(0.72 0.16 35 / 0.16);
+  --spot: oklch(0.85 0.08 195 / 0.12);
+  --bubble-bg: oklch(0.85 0.06 195 / 0.4);
+  --bubble-border: oklch(0.9 0.05 195 / 0.5);
+  --bubble-glow: oklch(0.74 0.13 200 / 0.4);
+  --grain-opacity: 0.07;
+  --stars: 1;
 }
 
 @theme {
@@ -212,11 +265,11 @@
     position: absolute;
     bottom: -12px;
     border-radius: 9999px;
-    background: oklch(0.85 0.06 195 / 0.4);
-    border: 1px solid oklch(0.9 0.05 195 / 0.5);
+    background: var(--bubble-bg);
+    border: 1px solid var(--bubble-border);
     box-shadow:
       inset 0 0 3px oklch(1 0 0 / 0.5),
-      0 0 6px oklch(0.74 0.13 200 / 0.4);
+      0 0 6px var(--bubble-glow);
     animation-name: ash-rise;
     animation-timing-function: ease-in-out;
     animation-iteration-count: infinite;
@@ -270,7 +323,7 @@
     left: -8%;
     width: 45vw;
     height: 45vw;
-    background: oklch(0.74 0.13 200 / 0.5);
+    background: var(--blob-a);
     animation: blob-drift-1 32s ease-in-out infinite;
   }
 
@@ -279,7 +332,7 @@
     right: -10%;
     width: 50vw;
     height: 50vw;
-    background: oklch(0.8 0.1 190 / 0.4);
+    background: var(--blob-b);
     animation: blob-drift-2 38s ease-in-out infinite;
   }
 
@@ -288,7 +341,7 @@
     left: 58%;
     width: 30vw;
     height: 30vw;
-    background: oklch(0.72 0.16 35 / 0.16);
+    background: var(--blob-c);
     animation: blob-drift-3 26s ease-in-out infinite;
   }
 
@@ -326,7 +379,7 @@
   .ambient-spotlight {
     position: absolute;
     inset: 0;
-    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 20%), oklch(0.85 0.08 195 / 0.12), transparent 70%);
+    background: radial-gradient(420px circle at var(--mx, 50%) var(--my, 20%), var(--spot), transparent 70%);
     transition: background 0.15s ease-out;
   }
 

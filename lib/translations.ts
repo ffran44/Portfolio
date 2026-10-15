@@ -6,6 +6,7 @@ export const translations = {
       summary:
         "IT Technician with CCNA-level networking training and a strong focus on infrastructure and NOC operations. Hands-on experience configuring Cisco routers and switches, VLANs, DHCP, NAT, troubleshooting, monitoring, and incident resolution. Over two years teaching advanced technical topics including cryptography, security, databases, and web development. Proven ability to lead technical practices, document processes, and guide groups of 25–30 students in real-world projects. English level B1+.",
       downloadCV: "Download CV",
+      scroll: "Dive in",
       contact: "Contact Me",
     },
     professionalSummary: {
@@ -252,6 +253,39 @@ export const translations = {
         },
       ],
     },
+    nav: {
+      label: "Page sections",
+      items: [
+        { id: "top", label: "Home" },
+        { id: "professional-summary", label: "Profile" },
+        { id: "network-lab", label: "Network Lab" },
+        { id: "core-skills", label: "Skills" },
+        { id: "professional-experience", label: "Experience" },
+        { id: "projects", label: "Projects" },
+        { id: "certifications", label: "Certifications" },
+        { id: "contact", label: "Contact" },
+      ],
+    },
+    depth: {
+      label: "Depth",
+      zones: ["Surface", "Sunlit waters", "Twilight zone", "Deep water", "Seabed"],
+    },
+    networkLab: {
+      title: "Network Lab",
+      intro:
+        "A small slice of the networks I build and troubleshoot. Choose where the packet starts, then click any device to ping it.",
+      from: "Ping from",
+      hint: "Click a device to send a ping",
+      running: "Sending packets…",
+      clear: "Clear console",
+      aclNote: "R1 drops it: an ACL keeps the guest VLAN away from the server.",
+      legend: "VLAN 10 staff · VLAN 20 guests",
+      sourceDisabled: "This is the source device",
+    },
+    footer: {
+      back: "Back to the surface",
+      line: "Built by hand in Río Tercero, Córdoba.",
+    },
     operationalImpact: {
       title: "Operational Impact",
       items: [
@@ -283,6 +317,7 @@ export const translations = {
       summary:
         "Técnico en Informática con formación CCNA y fuerte orientación a redes, infraestructura y operación NOC. Experiencia práctica en configuración de routers y switches Cisco, VLAN, DHCP, NAT, troubleshooting, monitoreo y resolución de incidentes. Más de dos años de experiencia docente impartiendo contenidos técnicos avanzados en criptografía, seguridad, bases de datos y desarrollo web. Capacidad demostrada para liderar prácticas técnicas, documentar procesos y guiar a grupos de 25–30 alumnos en proyectos reales. Nivel de inglés B1+.",
       downloadCV: "Descargar CV",
+      scroll: "Sumergite",
       contact: "Contactar",
     },
     professionalSummary: {
@@ -530,6 +565,39 @@ export const translations = {
           text: "Más allá de las redes y el código: música, videojuegos, películas y series.",
         },
       ],
+    },
+    nav: {
+      label: "Secciones de la página",
+      items: [
+        { id: "top", label: "Inicio" },
+        { id: "professional-summary", label: "Perfil" },
+        { id: "network-lab", label: "Laboratorio de Red" },
+        { id: "core-skills", label: "Competencias" },
+        { id: "professional-experience", label: "Experiencia" },
+        { id: "projects", label: "Proyectos" },
+        { id: "certifications", label: "Certificaciones" },
+        { id: "contact", label: "Contacto" },
+      ],
+    },
+    depth: {
+      label: "Profundidad",
+      zones: ["Superficie", "Aguas claras", "Zona crepuscular", "Aguas profundas", "Lecho marino"],
+    },
+    networkLab: {
+      title: "Laboratorio de Red",
+      intro:
+        "Un pedacito de las redes que armo y diagnostico. Elegí desde dónde sale el paquete y tocá cualquier equipo para hacerle ping.",
+      from: "Ping desde",
+      hint: "Tocá un equipo para enviar un ping",
+      running: "Enviando paquetes…",
+      clear: "Limpiar consola",
+      aclNote: "R1 lo descarta: una ACL mantiene a la VLAN de invitados lejos del servidor.",
+      legend: "VLAN 10 personal · VLAN 20 invitados",
+      sourceDisabled: "Este es el equipo de origen",
+    },
+    footer: {
+      back: "Volver a la superficie",
+      line: "Hecho a mano en Río Tercero, Córdoba.",
     },
     operationalImpact: {
       title: "Impacto Operacional",
